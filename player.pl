@@ -1,17 +1,26 @@
 /*Untuk File Player.pl*/ 
 
-:-dynamic(maxHP/1).
-:-dynamic(currHP/1).
+:-dynamic(player/7).
 
-:-dynamic(Defence/1).
+:-dynamic(max_HP/1).
+max_HP(0).
+:-dynamic(curr_HP/1).
+
+:-dynamic(defence/1).
 
 :-dynamic(attack/1).
-:-dynamic(specialAttack/1).
+:-dynamic(special_Attack/1).
 
 :-dynamic(level/1).
+level(0).
 :-dynamic(experience/1).
 
 
 hp(swordman, 200).
-hp(Archer, 150).
-hp(Sorcerer, 100).
+hp(archer, 150).
+hp(sorcerer, 100).
+
+
+
+add_level(X):-
+	retract(level(Y)),Temp is Y+X,asserta(level(Temp)).
