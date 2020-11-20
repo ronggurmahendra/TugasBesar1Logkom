@@ -1,5 +1,5 @@
 :- include('player.pl').
-
+:- include('map.pl').
 
 /*Win Condition*/
 :- dynamic(state/1).
@@ -9,13 +9,13 @@ state(normal).
 /*Cek apakah sudah menang/kalah*/
 state(X):-
   state(win),
-  write("Kamu sudah menang."),nl.
+  write('Kamu sudah menang.'),nl.
 state(X):-
   state(lose),
-  write("YOU DIED."),nl.
+  write('YOU DIED.'),nl.
 /*Start adventure*/
 /*Save Load*/
-main:-write("Mulai adventure."),nl.
+main:-write('Mulai adventure.'),nl.
 /*Title*/
 /*Help*/
 /*Start of game*/
@@ -42,8 +42,9 @@ option(X):-
 
 
 map:-
-  tulispeta(true).
+  forall(between(0,21,Y), (forall(between(0,21,X), tulispeta(X,Y)),nl)),nl.
   % ceritanya tulis peta, ini nantinya ada di peta.pl
+
 
 status:-
   % placeholder fact
@@ -69,4 +70,4 @@ status:-
   equip_weapon(Weapon), equip_armor(Armor), equip_acc(Acc),
   format("Weapon: ~w ~n", [Weapon]),
   format("Armor: ~w ~n", [Armor]),
-  format("Accessory: ~w ~n", [Acc]).
+  format("Accessory: ~w ~n", [Acc]),!.
