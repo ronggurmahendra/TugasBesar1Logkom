@@ -120,3 +120,7 @@ add_base_defense(Added_base_defense):-
 	Final_Base_defense is Base_defense + Added_base_defense,
 	asserta(base_defense(Final_Base_defense)).
 	
+add_gold(Added_gold):-
+	retract(gold(Gold)),
+	Final_Gold is Gold + Added_Gold,
+	asserta(gold(Final_Gold)).
