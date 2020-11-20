@@ -4,14 +4,10 @@
 /*Win Condition*/
 :- dynamic(state/1).
 state(normal).
-% :- dynamic state(win).
-% :- dynamic state(lose).
 /*Cek apakah sudah menang/kalah*/
-state(X):-
-  state(win),
+state(win):-
   write('Kamu sudah menang.'),nl.
-state(X):-
-  state(lose),
+state(lose):-
   write('YOU DIED.'),nl.
 /*Start adventure*/
 /*Save Load*/
@@ -37,14 +33,12 @@ option(2):-
   write('You choose archer, let`s explore the world!'),nl.
 option(3):-
   write('You choose sorcerer, let`s explore the world!'),nl.
-option(X):-
+option(_):-
   write('False.'),nl.
-
 
 map:-
   forall(between(0,21,Y), (forall(between(0,21,X), tulispeta(X,Y)),nl)),nl.
-  % ceritanya tulis peta, ini nantinya ada di peta.pl
-
+  % tulis peta, ada di peta.pl
 
 status:-
   % placeholder fact
