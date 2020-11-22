@@ -9,7 +9,6 @@ initbattle:-
   asserta(enemy_base_attack(Enemy_Attack)),
   asserta(enemy_special_attack(Enemy_Special)).
 
-
 %basis
 add_curr_HP_enemy(Added_curr_Hp):-
   enemy_curr_HP(HP),
@@ -24,7 +23,39 @@ add_curr_HP_enemy(Added_curr_Hp):-
   retract(enemy_curr_HP(Curr_Hp)),
   asserta(enemy_curr_HP(FinalHp)).
 
-%enemy_attack:-
+slime_attack:-
+  stat(slime,_,X,_,_),
+  equip_armor(Armor,Y,_),
+  add_curr_HP(-1*X-(0.3*(Y+10))).%DAMAGE : (BaseDamageEnemey)-(0.3*DEFENSE)
+slime_special_attack:-
+  %hitung turn buat special attack
+  stat(slime,_,_,_,X),
+  equip_armor(Armor,Y,_),
+  add_curr_HP(-1*X-(0.3*(Y+10))).%DAMAGE : 10
+goblin_attack:-
+  stat(goblin,_,X,_,_),
+  equip_armor(Armor,Y,_),
+  add_curr_HP(-1*X-(0.3*(Y+10))).
+goblin_special_attack:-
+  %hitung turn buat special attack
+  stat(goblin,_,_,_,X),
+  equip_armor(Armor,Y,_),
+  add_curr_HP(-1*X-(0.3*(Y+10))).
+wolf_attack:-
+  stat(wolf,_,X,_,_),
+  equip_armor(Armor,Y,_),
+  add_curr_HP(-1*X-(0.3*(Y+10))).
+wolf_special_attack:-
+  %hitung turn buat special attack
+  stat(wolf,_,_,_,X),
+  equip_armor(Armor,Y,_),
+  add_curr_HP(-1*X-(0.3*(Y+10))).
+
+enemy_drop(_,X,Y):-
+  random(1,20,BonusGold),
+  FinalGold is BonusGold+Y,
+  add_gold(FinalGold),
+  get_exp(X).
 
 usePotion:- %Potionnya ga ada
     inventory(X),
