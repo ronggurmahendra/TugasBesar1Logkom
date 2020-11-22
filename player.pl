@@ -8,8 +8,16 @@
 :-dynamic(level/1).
 :-dynamic(experience/1).
 :-dynamic(inventory/1).
+<<<<<<< HEAD
 :-dynamic(gold/1).
 
+=======
+:-dynamic(equip_weapon/3).
+:-dynamic(equip_armor/3).
+:-dynamic(equip_acc/6).
+
+job(1).
+>>>>>>> 5999a831f2374ef7740c52d6454def484b36e0c3
 level(1).
 experience(0).
 max_HP(100).
@@ -19,11 +27,19 @@ special_attack(30).
 base_defense(10).
 gold(0).
 
+<<<<<<< HEAD
 equip_weapon(dull_sword).
 equip_armor(iron_plate).
 equip_acc(none).
 inventory([]).
 
+=======
+equip_weapon(beginnerSword,5,1).
+equip_armor(beginnerPlate,5,1).
+equip_acc(none,0,0,0,0).
+inventory([longsword, beginnerBow, ironPlate]).
+gold(0).
+>>>>>>> 5999a831f2374ef7740c52d6454def484b36e0c3
 
 /*
 class 0 all
@@ -32,16 +48,27 @@ class 2 archer
 class 3 sorcerer
 */
 /*weapon(weapon,damageValue,Class)*/
-weapon(beginerSword,5,1).
-weapon(beginerBow,5,2).
-weapon(beginerStaff,5,3).
-/*armor(weapon,defenceValue,class)*/
-armor(beginerIronplate,5,1).
-armor(beginerLeather,5,2).
-armor(beginerRobe,5,3).
+weapon(beginnerSword,5,1).
+weapon(beginnerBow,5,2).
+weapon(beginnerStaff,5,3).
+weapon(longsword,10,1).
+/*armor(weapon,defenseValue,class)*/
+armor(beginnerPlate,5,1).
+armor(beginnerLeather,5,2).
+armor(beginnerRobe,5,3).
+armor(ironPlate,10,1).
 
-/*equipment(weapon,damageValue,defenceValue,MaxHP,class)*/
+/*equipment(weapon,damageValue,defenseValue,MaxHP,class)*/
 accessory(none,0,0,0,0).
+
+/* Class Name */
+class(1, Name) :-
+	Name = swordsman.
+class(2, Name) :-
+	Name = archer.
+class(3, Name) :-
+	Name = sorcerer.
+
 /*Level & EXP*/
 get_exp(Added_Exp) :- 
 	retract(experience(Exp)),
@@ -122,6 +149,81 @@ add_base_defense(Added_base_defense):-
 	asserta(base_defense(Final_Base_defense)).
 	
 add_gold(Added_gold):-
+<<<<<<< HEAD
 	retract(gold(Base_Gold)),
 	Final_Gold is Base_Gold + Added_Gold,
 	asserta(gold(Final_Gold)).
+=======
+	retract(gold(Gold)),
+	Final_Gold is Gold + Added_Gold,
+	asserta(gold(Final_Gold)).
+
+
+swap_weapon :-
+	write('Choose the weapon that you want to swap: '),nl,
+	print_inventory,
+	repeat,
+		read(Input),
+		weapon(Input, Dmg, Class),
+		job(Class1),
+		Class == Class1,
+		
+	retract(equip_weapon(X,_,_)),
+	asserta(equip_weapon(Input,Dmg,Class)),
+	add_item(X),
+	delete_item(Input).
+
+swap_armor :-
+	write('Choose the armor that you want to swap: '),nl,
+	print_inventory,
+	repeat,
+		read(Input),
+		armor(Input, Def, Class),
+		job(Class1),
+		Class == Class1,
+		
+	retract(equip_armor(X,_,_)),
+	asserta(equip_armor(Input,Def,Class)),
+	add_item(X),
+	delete_item(Input).
+
+swap_accessory :-
+	write('Choose the accessory that you want to swap: '),nl,
+	print_inventory,
+	repeat,
+		read(Input),
+		accessory(Input, Dmg, Def, HP, Class),
+		job(Class1),
+		Class == Class1,
+		
+	retract(equip_accessory(X,_,_,_,_)),
+	asserta(equip_accessory(Input,Dmg,Def,HP,Class)),
+	add_item(X),
+	delete_item(Input).
+
+
+print_inventory :-
+	inventory(List),
+	write('Your Inventory: '),nl,
+	print_inventory_(List).
+
+print_inventory_([Head|Tail]) :-
+	weapon(Head, _, Class),
+	class(Class, Name),
+	format("~w (~w) ~n",[Head, Name]),
+	print_inventory_(Tail).
+
+print_inventory_([Head|Tail]) :-
+	armor(Head, _, Class),
+	class(Class, Name),
+	format("~w (~w) ~n",[Head, Name]),
+	print_inventory_(Tail).
+
+print_inventory_([Head|Tail]) :-
+	accessory(Head, _, _, _, Class),
+	class(Class, Name),
+	format("~w (~w) ~n",[Head, Name]),
+	print_inventory_(Tail).
+
+print_inventory_([]).
+>>>>>>> 5999a831f2374ef7740c52d6454def484b36e0c3
