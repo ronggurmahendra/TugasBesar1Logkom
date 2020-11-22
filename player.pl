@@ -11,9 +11,9 @@
 :-dynamic(gold/1).
 :-dynamic(equip_weapon/3).
 :-dynamic(equip_armor/3).
-:-dynamic(equip_acc/6).
+:-dynamic(equip_acc/5).
 :-dynamic(job/1).
-job(1).
+% job(1).
 level(1).
 experience(0).
 max_HP(100).
@@ -22,11 +22,6 @@ base_attack(10).
 special_attack(30).
 base_defense(10).
 gold(0).
-
-equip_weapon(beginnerSword,5,1).
-equip_armor(beginnerPlate,5,1).
-equip_acc(none,0,0,0,0).
-inventory([longsword, ironPlate, beginnerBow, ironPlate]).
 
 /*
 class 0 all
@@ -142,6 +137,7 @@ add_gold(Added_gold):-
 
 
 swap_weapon :-
+	state(normal),
 	write('Choose the weapon that you want to swap: '),nl,
 	print_inventory,
 	repeat,
@@ -156,6 +152,7 @@ swap_weapon :-
 	delete_item(Input).
 
 swap_armor :-
+	state(normal),
 	write('Choose the armor that you want to swap: '),nl,
 	print_inventory,
 	repeat,
@@ -170,6 +167,7 @@ swap_armor :-
 	delete_item(Input).
 
 swap_accessory :-
+	state(normal),
 	write('Choose the accessory that you want to swap: '),nl,
 	print_inventory,
 	repeat,
@@ -210,6 +208,7 @@ print_inventory_([Head|Tail]) :-
 print_inventory_([]).
 
 inventory :-
+	state(normal),
 	inventory([Head|Tail]),
 	inventory_([Head|Tail]).
 

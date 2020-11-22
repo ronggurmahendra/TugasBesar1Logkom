@@ -23,14 +23,14 @@ tulispeta(X,Y) :- questLoc(X,Y), write('Q').
 tulispeta(X,Y) :- activeArea(X,Y), write('-').
 
 % move player
-w :- playerLoc(_,1), write('Border!'),nl,!.
-w :- retract(playerLoc(X,Y)), NewY is Y-1, asserta(playerLoc(X,NewY)),msg.
-a :- playerLoc(1,_), write('Border!'),nl,!.
-a :- retract(playerLoc(X,Y)), NewX is X-1, asserta(playerLoc(NewX,Y)),msg.
-s :- playerLoc(_,20), write('Border!'),nl,!.
-s :- retract(playerLoc(X,Y)), NewY is Y+1, asserta(playerLoc(X,NewY)),msg.
-d :- playerLoc(20,_), write('Border!'),nl,!.
-d :- retract(playerLoc(X,Y)), NewX is X+1, asserta(playerLoc(NewX,Y)),msg.
+w :- state(normal),playerLoc(_,1), write('Border!'),nl,!.
+w :- state(normal),retract(playerLoc(X,Y)), NewY is Y-1, asserta(playerLoc(X,NewY)),msg.
+a :- state(normal),playerLoc(1,_), write('Border!'),nl,!.
+a :- state(normal),retract(playerLoc(X,Y)), NewX is X-1, asserta(playerLoc(NewX,Y)),msg.
+s :- state(normal),playerLoc(_,20), write('Border!'),nl,!.
+s :- state(normal),retract(playerLoc(X,Y)), NewY is Y+1, asserta(playerLoc(X,NewY)),msg.
+d :- state(normal),playerLoc(20,_), write('Border!'),nl,!.
+d :- state(normal),retract(playerLoc(X,Y)), NewX is X+1, asserta(playerLoc(NewX,Y)),msg.
 
 msg :-
     playerLoc(10,5),
