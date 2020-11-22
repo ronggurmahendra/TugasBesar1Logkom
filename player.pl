@@ -211,7 +211,7 @@ print_inventory_([Head|Tail]) :-
 
 print_inventory_([]).
 
-/*
+
 inventory :- 
 	retract(inventory([Head|Tail])),
 	inventory_([Head|Tail]),
@@ -235,20 +235,15 @@ count(Elmt,[Head|Tail],Result) :-
 	count(Elmt,Tail,TempResult),
 	Result is TempResult.
 	
-deleteAllElmt(Elmt,[Head|[Del|Tail]],Result):-
+deleteAllElmt(Elmt,[Head|Tail],Result):-
 	Head == Elmt,
-	format('Deleting ~w',[Head]),
 	deleteAllElmt(Elmt,Tail,TempResult),
-	Result = [Del|Tail].
+	Result = TempResult.
 	
 deleteAllElmt(Elmt,[Head|Tail],Result):-
 	\+(Head == Elmt),
-	write('PushFront'),
 	deleteAllElmt(Elmt,Tail,TempResult),
-	pushFront(Head,TempResult,FinalResult),
-	Result = FinalResult.
+	Result = [Head|TempResult].
 
-deleteAllElmt(_,[],_).
-pushFront(Item, List, [Item|List]).
-*/
-	
+deleteAllElmt(_,[],[]).
+
