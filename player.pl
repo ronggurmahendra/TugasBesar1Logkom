@@ -11,9 +11,9 @@
 :-dynamic(gold/1).
 :-dynamic(equip_weapon/3).
 :-dynamic(equip_armor/3).
-:-dynamic(equip_acc/5).
-:-dynamic(job/1).
-% job(1).
+:-dynamic(equip_acc/6).
+:-dynamic(job/1)
+job(1).
 level(1).
 experience(0).
 max_HP(100).
@@ -22,6 +22,11 @@ base_attack(10).
 special_attack(30).
 base_defense(10).
 gold(0).
+
+equip_weapon(beginnerSword,5,1).
+equip_armor(beginnerPlate,5,1).
+equip_acc(none,0,0,0,0).
+inventory([longsword, ironPlate, beginnerBow, ironPlate]).
 
 /*
 class 0 all
@@ -34,22 +39,16 @@ weapon(beginnerSword,5,1).
 weapon(beginnerBow,5,2).
 weapon(beginnerStaff,5,3).
 weapon(longsword,10,1).
-weaponList([beginnerSword,beginnerBow,beginnerStaff,longsword]).
 /*armor(weapon,defenseValue,class)*/
 armor(beginnerPlate,5,1).
 armor(beginnerLeather,5,2).
 armor(beginnerRobe,5,3).
 armor(ironPlate,10,1).
-armorList([beginnerPlate,beginnerLeather,beginnerRobe,ironPlate]).
+
 /*equipment(weapon,damageValue,defenseValue,MaxHP,class)*/
 accessory(none,0,0,0,0).
-accessory(beltOfGiantStrengh,50,0,0,0).
-accessory(bracersOfDefence,0,50,0,0).
-accessory(amuletOfHealth,0,0,50,0).
-accessoryList([beltOfGiantStrengh,bracersOfDefence,amuletOfHealth]).
+
 /* Class Name */
-class(0,Name):-
-	Name = any.
 class(1, Name) :-
 	Name = swordsman.
 class(2, Name) :-
@@ -143,17 +142,13 @@ add_gold(Added_gold):-
 
 
 swap_weapon :-
-	state(normal),
 	write('Choose the weapon that you want to swap: '),nl,
-	print_weapon,
+	print_inventory,
 	repeat,
 		read(Input),
 		weapon(Input, Dmg, Class),
 		job(Class1),
-		weaponList(List),
-		isElmt(List,Input,Bool),
-		(Bool == 0 -> write('You don`t have that item!'),nl,fail; !),
-		(Class \== Class1 -> write('You can`t equip item for different class!'),nl,fail; write('Weapon Swapped!'),nl,!),
+		Class == Class1,
 
 	retract(equip_weapon(X,_,_)),
 	asserta(equip_weapon(Input,Dmg,Class)),
@@ -161,17 +156,13 @@ swap_weapon :-
 	delete_item(Input).
 
 swap_armor :-
-	state(normal),
 	write('Choose the armor that you want to swap: '),nl,
-	print_armor,
+	print_inventory,
 	repeat,
 		read(Input),
 		armor(Input, Def, Class),
 		job(Class1),
-		armorList(List),
-		isElmt(List,Input,Bool),
-		(Bool == 0 -> write('You don`t have that item!'),nl,fail; !),
-		(Class \== Class1 -> write('You can`t equip item for different class!'),nl,fail; write('Armor Swapped!'),nl,!),
+		Class == Class1,
 
 	retract(equip_armor(X,_,_)),
 	asserta(equip_armor(Input,Def,Class)),
@@ -179,22 +170,20 @@ swap_armor :-
 	delete_item(Input).
 
 swap_accessory :-
-	state(normal),
 	write('Choose the accessory that you want to swap: '),nl,
-	print_accessory,
+	print_inventory,
 	repeat,
 		read(Input),
 		accessory(Input, Dmg, Def, HP, Class),
-		accessoryList(List),
-		isElmt(List,Input,Bool),
-		(Bool == 0 -> write('You don`t have that item'),nl,fail; write('Accessory Swapped'),nl,!),
+		job(Class1),
+		Class == Class1,
 
 	retract(equip_accessory(X,_,_,_,_)),
 	asserta(equip_accessory(Input,Dmg,Def,HP,Class)),
 	add_item(X),
 	delete_item(Input).
 
-%vvvvvvvvvvvvvvvvvvvvvvvv
+
 print_inventory :-
 	inventory(List),
 	write('Your Inventory: '),nl,
@@ -219,83 +208,8 @@ print_inventory_([Head|Tail]) :-
 	print_inventory_(Tail).
 
 print_inventory_([]).
-%^^^^^^^^^^^^^^^^^^^
-%vvvvvvvvvvvvvvvvvvvvvvvv
-print_weapon :-
-	inventory(List),
-	write('Your Weapon: '),nl,
-	print_weapon_(List).
 
-print_weapon_([Head|Tail]) :-
-	weaponList(WeaponList),
-	isElmt(WeaponList,Head,Bool),
-	Bool == 1,
-	weapon(Head, _, Class),
-	class(Class, Name),
-	format("~w (~w) ~n",[Head, Name]),
-	print_weapon_(Tail).
-
-print_weapon_([Head|Tail]) :-
-	weaponList(WeaponList),
-	isElmt(WeaponList,Head,Bool),
-	Bool == 0,
-	print_weapon_(Tail).
-
-
-print_weapon_([]).
-%^^^^^^^^^^^^^^^^^^^
-
-%vvvvvvvvvvvvvvvvvvvvvvvv
-print_armor :-
-	inventory(List),
-	write('Your Armor: '),nl,
-	print_armor_(List).
-
-print_armor_([Head|Tail]) :-
-	armorList(ArmorList),
-	isElmt(ArmorList,Head,Bool),
-	Bool == 1,
-	armor(Head, _, Class),
-	class(Class, Name),
-	format("~w (~w) ~n",[Head, Name]),
-	print_armor_(Tail).
-
-print_armor_([Head|Tail]) :-
-	armorList(ArmorList),
-	isElmt(ArmorList,Head,Bool),
-	Bool == 0,
-	print_armor_(Tail).
-
-
-print_armor_([]).
-%^^^^^^^^^^^^^^^^^^^
-
-%vvvvvvvvvvvvvvvvvvvvvvvv
-print_accessory :-
-	inventory(List),
-	write('Your Accessory: '),nl,
-	print_accessory_(List).
-
-print_accessory_([Head|Tail]) :-
-	accessoryList(AccessoryList),
-	isElmt(AccessoryList,Head,Bool),
-	Bool == 1,
-	accessory(Head,_,_,_,Class),
-	class(Class, Name),
-	format("~w (~w) ~n",[Head, Name]),
-	print_accessory_(Tail).
-
-print_accessory_([Head|Tail]) :-
-	accessoryList(AccessoryList),
-	isElmt(AccessoryList,Head,Bool),
-	Bool == 0,
-	print_accessory_(Tail).
-
-
-print_accessory_([]).
-%^^^^^^^^^^^^^^^^^^^
 inventory :-
-	state(normal),
 	inventory([Head|Tail]),
 	inventory_([Head|Tail]).
 
@@ -329,22 +243,3 @@ deleteAllElmt(Elmt,[Head|Tail],Result):-
 	Result = [Head|TempResult].
 
 deleteAllElmt(_,[],[]).
-
-
-getElmt([Head|Tail],I,Elmt):-
-	Temp is I-1,
-	getElmt(Tail,Temp,Elmt).
-
-getElmt([Head|Tail],0,Elmt):-
-	Elmt is Head.
-	
-isElmt([Head|Tail],Elmt,Bool):- 
-	Head == Elmt,
-	Bool is 1.
-
-isElmt([Head|Tail],Elmt,Bool):- 
-	\+(Head == Elmt),
-	isElmt(Tail,Elmt,Bool).
-isElmt([],_,Bool):- 
-	Bool is 0.
-
