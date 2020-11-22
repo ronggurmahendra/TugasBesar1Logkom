@@ -244,3 +244,11 @@ deleteAllElmt(Elmt,[Head|Tail],Result):-
 	Result = [Head|TempResult].
 
 deleteAllElmt(_,[],[]).
+
+
+getElmt([Head|Tail],I,Elmt):-
+	Temp is I-1,
+	getElmt(Tail,Temp,Elmt).
+
+getElmt([Head|Tail],0,Elmt):-
+	Elmt is Head.
