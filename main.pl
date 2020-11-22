@@ -2,26 +2,27 @@
 :- include('map.pl').
 :- include('shop.pl').
 :- include('battle.pl').
+:- include('print.pl').
 /*Win Condition*/
 :- dynamic(state/1).
 state(menu).
 % state(normal).
 /*Cek apakah sudah menang/kalah*/
 
-menu:-
-  write('Welcome!Type start. to begin your adventure'),nl.
-state(menu):-
-  write('Menu: start'),nl.
-state(battle_player):-
-  write('Your turn').
-state(battle_enemy):-
-  write('Enemy turn').
-state(shop):-
-  write('Gacha is available'),nl.
-state(win):-
-  write('Kamu sudah menang.'),nl.
-state(lose):-
-  write('YOU DIED.'),nl.
+% menu:-
+%   write('Welcome!Type start. to begin your adventure'),nl.
+% state(menu):-
+%   write('Menu: start'),nl.
+% state(battle_player):-
+%   write('Your turn').
+% state(battle_enemy):-
+%   write('Enemy turn').
+% state(shop):-
+%   write('Gacha is available'),nl.
+% state(win):-
+%   write('Kamu sudah menang.'),nl.
+% state(lose):-
+%   write('YOU DIED.'),nl.
 /*Start adventure*/
 /*Save Load*/
 /*Title*/
@@ -30,16 +31,17 @@ state(lose):-
 
 :- dynamic(option/1).
 start:-
+  print_title,nl,sleep(1),
   state(menu),
-  retract(state(_)),
-  asserta(state(normal)),
   write('Welcome, choose your job.'),nl,
   write('1. Swordsman'),nl,
   write('2. Archer'),nl,
   write('3. Sorcered'),nl,
   read(X),
   option(X),
-  asserta(job(X)).
+  asserta(job(X)),
+  retract(state(_)),
+  asserta(state(normal)).
   % ceritanya nanti choose job, ini nantinya ada di player.pl
   % setup starting equipment
 option(1):-
