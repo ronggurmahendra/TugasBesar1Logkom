@@ -8,7 +8,7 @@
 :-dynamic(level/1).
 :-dynamic(experience/1).
 :-dynamic(inventory/1).
-
+:-dynamic(gold/1).
 
 level(1).
 experience(0).
@@ -17,12 +17,13 @@ curr_HP(100).
 base_attack(10).
 special_attack(30).
 base_defense(10).
+gold(0).
 
 equip_weapon(dull_sword).
 equip_armor(iron_plate).
 equip_acc(none).
 inventory([]).
-gold(0).
+
 
 /*
 class 0 all
@@ -121,6 +122,6 @@ add_base_defense(Added_base_defense):-
 	asserta(base_defense(Final_Base_defense)).
 	
 add_gold(Added_gold):-
-	retract(gold(Gold)),
-	Final_Gold is Gold + Added_Gold,
+	retract(gold(Base_Gold)),
+	Final_Gold is Base_Gold + Added_Gold,
 	asserta(gold(Final_Gold)).
