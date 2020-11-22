@@ -27,7 +27,7 @@ gold(0).
 equip_weapon(beginnerSword,5,1).
 equip_armor(beginnerPlate,5,1).
 equip_acc(none,0,0,0,0).
-inventory([longsword, beginnerBow, ironPlate]).
+inventory([longsword, ironPlate, beginnerBow, ironPlate]).
 gold(0).
 
 /*
@@ -210,3 +210,45 @@ print_inventory_([Head|Tail]) :-
 	print_inventory_(Tail).
 
 print_inventory_([]).
+
+/*
+inventory :- 
+	retract(inventory([Head|Tail])),
+	inventory_([Head|Tail]),
+	retract(inventory([Head|Tail])).
+
+inventory_([Head|Tail]) :- 
+	count(Head,[Head|Tail],CountItem),
+	format("~w (~w) ~n",[Head, CountItem]),
+	inventory_(Tail).
+	
+count(_,[],Result):-
+	Result is 0.
+
+count(Elmt,[Head|Tail],Result) :- 
+	Head == Elmt,
+	count(Elmt,Tail,TempResult),
+	Result is 1 + TempResult.
+	
+count(Elmt,[Head|Tail],Result) :- 
+	\+(Head == Elmt),
+	count(Elmt,Tail,TempResult),
+	Result is TempResult.
+	
+deleteAllElmt(Elmt,[Head|[Del|Tail]],Result):-
+	Head == Elmt,
+	format('Deleting ~w',[Head]),
+	deleteAllElmt(Elmt,Tail,TempResult),
+	Result = [Del|Tail].
+	
+deleteAllElmt(Elmt,[Head|Tail],Result):-
+	\+(Head == Elmt),
+	write('PushFront'),
+	deleteAllElmt(Elmt,Tail,TempResult),
+	pushFront(Head,TempResult,FinalResult),
+	Result = FinalResult.
+
+deleteAllElmt(_,[],_).
+pushFront(Item, List, [Item|List]).
+*/
+	
