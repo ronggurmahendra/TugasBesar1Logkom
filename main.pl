@@ -61,7 +61,7 @@ status:-
   write('Equipment:'),nl,
   gold(Gold),
   format("Gold: ~w ~n",[Gold]),
-  equip_weapon(Weapon), equip_armor(Armor), equip_acc(Acc),
+  equip_weapon(Weapon,_,_), equip_armor(Armor,_,_), equip_acc(Acc,_,_,_,_),
   format("Weapon: ~w ~n", [Weapon]),
   format("Armor: ~w ~n", [Armor]),
   format("Accessory: ~w ~n", [Acc]),!.
