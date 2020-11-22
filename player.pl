@@ -8,16 +8,13 @@
 :-dynamic(level/1).
 :-dynamic(experience/1).
 :-dynamic(inventory/1).
-<<<<<<< HEAD
 :-dynamic(gold/1).
 
-=======
 :-dynamic(equip_weapon/3).
 :-dynamic(equip_armor/3).
 :-dynamic(equip_acc/6).
 
 job(1).
->>>>>>> 5999a831f2374ef7740c52d6454def484b36e0c3
 level(1).
 experience(0).
 max_HP(100).
@@ -27,19 +24,11 @@ special_attack(30).
 base_defense(10).
 gold(0).
 
-<<<<<<< HEAD
-equip_weapon(dull_sword).
-equip_armor(iron_plate).
-equip_acc(none).
-inventory([]).
-
-=======
 equip_weapon(beginnerSword,5,1).
 equip_armor(beginnerPlate,5,1).
 equip_acc(none,0,0,0,0).
 inventory([longsword, beginnerBow, ironPlate]).
 gold(0).
->>>>>>> 5999a831f2374ef7740c52d6454def484b36e0c3
 
 /*
 class 0 all
@@ -149,11 +138,6 @@ add_base_defense(Added_base_defense):-
 	asserta(base_defense(Final_Base_defense)).
 	
 add_gold(Added_gold):-
-<<<<<<< HEAD
-	retract(gold(Base_Gold)),
-	Final_Gold is Base_Gold + Added_Gold,
-	asserta(gold(Final_Gold)).
-=======
 	retract(gold(Gold)),
 	Final_Gold is Gold + Added_Gold,
 	asserta(gold(Final_Gold)).
@@ -226,4 +210,3 @@ print_inventory_([Head|Tail]) :-
 	print_inventory_(Tail).
 
 print_inventory_([]).
->>>>>>> 5999a831f2374ef7740c52d6454def484b36e0c3
