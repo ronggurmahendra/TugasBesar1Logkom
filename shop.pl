@@ -30,6 +30,10 @@ gacharesult(9):-
     write('Congratulation you got Nine'),nl.
 
 shop:-
+  state(normal),
+  playerLoc(10,5),
+  retract(state(_)),
+  asserta(state(shop)),
   write('Welcome to the shop'),nl,
   write('What do you want to buy?'),nl,
   write('1. Health Potion (100 gold)'),nl,
@@ -58,4 +62,6 @@ gacha:-
     write('Not enough money!'),nl,!.
 %exitshop
 exitShop:-
+  retract(state(_)),
+  asserta(state(normal)),
   write('Thanks for coming'),nl. %masuk ke permainan lagi
