@@ -1,6 +1,7 @@
 :- include('player.pl').
 :- include('map.pl').
-
+:- include('shop.pl').
+:- include('battle.pl').
 /*Win Condition*/
 :- dynamic(state/1).
 state(normal).

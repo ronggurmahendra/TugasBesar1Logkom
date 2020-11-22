@@ -39,16 +39,22 @@ shop:-
 healthpotion:-
     gold(Gold),
     Gold >= 100,
-    add_item(Healthpotion).
+    add_item('Health Potion'),
+    add_gold(-100).
 healthpotion:-
+    gold(Gold),
+    Gold < 100,
     write('Not enough money!'),nl,!.
 %command gacha
 gacha:-
     gold(Gold),
     Gold >= 1000,
     random(0,9,Gacha_Number),
+    add_gold(-1000),
     gacharesult(Gacha_Number).
 gacha:-
+    gold(Gold),
+    Gold < 1000,
     write('Not enough money!'),nl,!.
 %exitshop
 exitShop:-
