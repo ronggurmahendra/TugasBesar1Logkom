@@ -9,11 +9,10 @@
 :-dynamic(experience/1).
 :-dynamic(inventory/1).
 :-dynamic(gold/1).
-
 :-dynamic(equip_weapon/3).
 :-dynamic(equip_armor/3).
 :-dynamic(equip_acc/6).
-
+:-dynamic(job/1).
 job(1).
 level(1).
 experience(0).

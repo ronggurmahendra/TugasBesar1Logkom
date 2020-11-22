@@ -4,8 +4,12 @@
 :- include('battle.pl').
 /*Win Condition*/
 :- dynamic(state/1).
+%state(menu). belum diimplementasikan
 state(normal).
 /*Cek apakah sudah menang/kalah*/
+%state(battle_player):-
+%state(battle_enemy):-
+%state(shop):-
 state(win):-
   write('Kamu sudah menang.'),nl.
 state(lose):-
@@ -25,6 +29,7 @@ start:-
   write('3. Sorcered'),nl,
   read(X),
   option(X),
+  retract(job(_)),
   asserta(job(X)).
   % ceritanya nanti choose job, ini nantinya ada di player.pl
   % setup starting equipment
@@ -51,18 +56,23 @@ status:-
   curr_HP(CurrHP), max_HP(MaxHP),
   format("Health: ~w/~w ~n",[CurrHP, MaxHP]),
   base_attack(Attack),
-  format("Attack: ~w ~n",[Attack]),
+  equip_weapon(Weapon,X,_),
+  equip_acc(Acc,A,B,_,_),
+  TempAttack is X+A,
+  format("Attack: ~w (+~w) ~n",[Attack,TempAttack]),
   special_attack(SAttack),
   format("Special Attack: ~w ~n",[SAttack]),
   base_defense(Defense),
-  format("Defense: ~w ~n",[Defense]),
+  equip_armor(Armor,Y,_),
+  TempDefense is Y+B,
+  format("Defense: ~w (+~w)~n",[Defense,TempDefense]),
   experience(Experience),
   format("Experience: ~w ~n ~n",[Experience]),
   % inventory
   write('Equipment:'),nl,
   gold(Gold),
   format("Gold: ~w ~n",[Gold]),
-  equip_weapon(Weapon,_,_), equip_armor(Armor,_,_), equip_acc(Acc,_,_,_,_),
+  equip_weapon(Weapon,X,_), equip_armor(Armor,Y,_), equip_acc(Acc,A,B,_,_),
   format("Weapon: ~w ~n", [Weapon]),
   format("Armor: ~w ~n", [Armor]),
   format("Accessory: ~w ~n", [Acc]),!.
