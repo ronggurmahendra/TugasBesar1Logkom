@@ -26,7 +26,7 @@ gold(0).
 equip_weapon(beginnerSword,5,1).
 equip_armor(beginnerPlate,5,1).
 equip_acc(none,0,0,0,0).
-inventory([longsword, ironPlate, beginnerBow, ironPlate]).
+inventory([longsword, ironPlate, beginnerBow, ironPlate,beltOfGiantStrengh]).
 
 /*
 class 0 all
@@ -39,16 +39,22 @@ weapon(beginnerSword,5,1).
 weapon(beginnerBow,5,2).
 weapon(beginnerStaff,5,3).
 weapon(longsword,10,1).
+weaponList([beginnerSword,beginnerBow,beginnerStaff,longsword]).
 /*armor(weapon,defenseValue,class)*/
 armor(beginnerPlate,5,1).
 armor(beginnerLeather,5,2).
 armor(beginnerRobe,5,3).
 armor(ironPlate,10,1).
-
+armorList([beginnerPlate,beginnerLeather,beginnerRobe,ironPlate]).
 /*equipment(weapon,damageValue,defenseValue,MaxHP,class)*/
 accessory(none,0,0,0,0).
-
+accessory(beltOfGiantStrengh,50,0,0,0).
+accessory(bracersOfDefence,0,50,0,0).
+accessory(amuletOfHealth,0,0,50,0).
+accessoryList([beltOfGiantStrengh,bracersOfDefence,amuletOfHealth]).
 /* Class Name */
+class(0,Name):-
+	Name = any.
 class(1, Name) :-
 	Name = swordsman.
 class(2, Name) :-
@@ -143,7 +149,7 @@ add_gold(Added_gold):-
 
 swap_weapon :-
 	write('Choose the weapon that you want to swap: '),nl,
-	print_inventory,
+	print_weapon,
 	repeat,
 		read(Input),
 		weapon(Input, Dmg, Class),
@@ -157,7 +163,7 @@ swap_weapon :-
 
 swap_armor :-
 	write('Choose the armor that you want to swap: '),nl,
-	print_inventory,
+	print_armor,
 	repeat,
 		read(Input),
 		armor(Input, Def, Class),
@@ -171,7 +177,7 @@ swap_armor :-
 
 swap_accessory :-
 	write('Choose the accessory that you want to swap: '),nl,
-	print_inventory,
+	print_accessory,
 	repeat,
 		read(Input),
 		accessory(Input, Dmg, Def, HP, Class),
@@ -183,7 +189,7 @@ swap_accessory :-
 	add_item(X),
 	delete_item(Input).
 
-
+%vvvvvvvvvvvvvvvvvvvvvvvv
 print_inventory :-
 	inventory(List),
 	write('Your Inventory: '),nl,
@@ -208,7 +214,81 @@ print_inventory_([Head|Tail]) :-
 	print_inventory_(Tail).
 
 print_inventory_([]).
+%^^^^^^^^^^^^^^^^^^^
+%vvvvvvvvvvvvvvvvvvvvvvvv
+print_weapon :-
+	inventory(List),
+	write('Your Weapon: '),nl,
+	print_weapon_(List).
 
+print_weapon_([Head|Tail]) :-
+	weaponList(WeaponList),
+	isElmt(WeaponList,Head,Bool),
+	Bool == 1,
+	weapon(Head, _, Class),
+	class(Class, Name),
+	format("~w (~w) ~n",[Head, Name]),
+	print_weapon_(Tail).
+
+print_weapon_([Head|Tail]) :-
+	weaponList(WeaponList),
+	isElmt(WeaponList,Head,Bool),
+	Bool == 0,
+	print_weapon_(Tail).
+
+
+print_weapon_([]).
+%^^^^^^^^^^^^^^^^^^^
+
+%vvvvvvvvvvvvvvvvvvvvvvvv
+print_armor :-
+	inventory(List),
+	write('Your Armor: '),nl,
+	print_armor_(List).
+
+print_armor_([Head|Tail]) :-
+	armorList(ArmorList),
+	isElmt(ArmorList,Head,Bool),
+	Bool == 1,
+	armor(Head, _, Class),
+	class(Class, Name),
+	format("~w (~w) ~n",[Head, Name]),
+	print_armor_(Tail).
+
+print_armor_([Head|Tail]) :-
+	armorList(ArmorList),
+	isElmt(ArmorList,Head,Bool),
+	Bool == 0,
+	print_armor_(Tail).
+
+
+print_armor_([]).
+%^^^^^^^^^^^^^^^^^^^
+
+%vvvvvvvvvvvvvvvvvvvvvvvv
+print_accessory :-
+	inventory(List),
+	write('Your Accessory: '),nl,
+	print_accessory_(List).
+
+print_accessory_([Head|Tail]) :-
+	accessoryList(AccessoryList),
+	isElmt(AccessoryList,Head,Bool),
+	Bool == 1,
+	accessory(Head,_,_,_,Class),
+	class(Class, Name),
+	format("~w (~w) ~n",[Head, Name]),
+	print_accessory_(Tail).
+
+print_accessory_([Head|Tail]) :-
+	accessoryList(AccessoryList),
+	isElmt(AccessoryList,Head,Bool),
+	Bool == 0,
+	print_accessory_(Tail).
+
+
+print_accessory_([]).
+%^^^^^^^^^^^^^^^^^^^
 inventory :-
 	inventory([Head|Tail]),
 	inventory_([Head|Tail]).
@@ -251,3 +331,14 @@ getElmt([Head|Tail],I,Elmt):-
 
 getElmt([Head|Tail],0,Elmt):-
 	Elmt is Head.
+	
+isElmt([Head|Tail],Elmt,Bool):- 
+	Head == Elmt,
+	Bool is 1.
+
+isElmt([Head|Tail],Elmt,Bool):- 
+	\+(Head == Elmt),
+	isElmt(Tail,Elmt,Bool).
+isElmt([],_,Bool):- 
+	Bool is 0.
+
