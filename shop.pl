@@ -31,7 +31,7 @@ gacharesult(9):-
     add_item(Healthpotion),
     write('Congratulation you got Nine'),nl.
 */
-gachaList(['paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon']).
+gachaList(['paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','beginnerSword']).
 shop:-
   state(normal),
   playerLoc(10,5),
@@ -65,13 +65,23 @@ gacha:-
 	gachaList(GachaList),
 	getElmt(GachaList,Gacha_Number,GachaResult),
 	%format("~w ~n",[GachaResult]),
-	add_item(GachaResult).
+	getGacha(GachaResult).
+	%add_item(GachaResult).
 gacha:-
 	state(shop),
     gold(Gold),
     Gold < 1000,
     write('Not enough money!'),nl,!.
 %exitshop
+getGacha(GachaResult):-
+	companionList(CompanionList),
+	isElmt(CompanionList,GachaResult,Bool),
+	Bool == 1,
+	get_companion(GachaResult),
+	print_file('paimon.txt').
+
+getGacha(GachaResult):-
+	add_item(GachaResult).
 
 sell:-
 	state(shop),
@@ -101,12 +111,11 @@ companion(paimon,20,20,20,50).
 companionList([paimon]).
 get_companion(Companion):-
 	companion(Companion,Max_HP_Bonus,Base_Defence_Bonus,Base_attack_Bonus,Special_attack_Bonus),
-	format("~w has join your party ~nyou gain numerous benefit",[Companion]),
+	format("~w has join your party ~nyou gain numerous benefit~n",[Companion]),
 	add_max_HP(Max_HP_Bonus),
 	add_base_attack(Base_attack_Bonus),
 	add_special_attack(Special_attack_Bonus),
-	add_base_defense(Base_Defence_Bonus),
-	add_item(Companion).
+	add_base_defense(Base_Defence_Bonus).
 
 exitShop:-
 	state(shop),

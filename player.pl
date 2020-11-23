@@ -368,6 +368,8 @@ getElmt([Head|Tail],I,Elmt):-
 
 getElmt([Head|Tail],0,Elmt):-
 	Elmt = Head.
+isElmt([],_,Bool):-
+	Bool is 0.
 
 isElmt([Head|Tail],Elmt,Bool):-
 	Head == Elmt,
@@ -376,5 +378,4 @@ isElmt([Head|Tail],Elmt,Bool):-
 isElmt([Head|Tail],Elmt,Bool):-
 	\+(Head == Elmt),
 	isElmt(Tail,Elmt,Bool).
-isElmt([],_,Bool):-
-	Bool is 0.
+
