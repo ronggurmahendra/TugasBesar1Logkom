@@ -122,7 +122,7 @@ quit:-
   retract(equip_armor(_,_,_)),
   retract(equip_acc(_,_,_,_,_)),
   retract(count_item(_)),
-  retract(curr_HP(_)),
+  retractall(curr_HP(_)),
   retract(max_HP(_)),
   retract(job(_)),
   retract(base_defense(_)),

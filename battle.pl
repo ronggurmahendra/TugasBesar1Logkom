@@ -10,10 +10,6 @@ initbattle:-
   asserta(enemy_base_attack(Enemy_Attack)),
   asserta(enemy_special_attack(Enemy_Special)).
 
-check_dead:-
-	curr_HP(X),
-	X =< 0,
-	write('Enemey is dead.').
 
 add_curr_HP_enemy(Added_curr_Hp):- %buat ngeattack enemy
   enemy_max_HP(Max_HP),
@@ -38,7 +34,7 @@ enemy_attack:-
 
 enemy_special_attack:-
   curr_enemy(Enemy),
-  stat(Enemey,_,_,_,X),
+  stat(Enemy,_,_,_,X),
   random(1,7,BonusDamage),
   FinalDamage is BonusDamage+X,
   base_defense(Z),
@@ -47,6 +43,7 @@ enemy_special_attack:-
   FinalDamageEnemy is -1*FinalDamage+(FinalDefencePlayer),
   FinalDamageEnemy < 0,
   add_curr_HP(FinalDamageEnemy).
+
 /*
 goblin_attack:-
   stat(goblin,_,X,_,_),
