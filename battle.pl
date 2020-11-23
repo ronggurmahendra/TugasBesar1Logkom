@@ -1,21 +1,21 @@
 :- include('enemy.pl').
-
+:- dynamic(curr_enemy/1).
 %inisialisasi initialisasi
 initbattle:-
   stat(slime,Enemy_HP,Enemy_Attack,Enemy_Defence,Enemy_Special),
+  asserta(curr_enemy(slime)),
   asserta(enemy_max_HP(Enemy_HP)),
   asserta(enemy_curr_HP(Enemy_HP)),
   asserta(enemy_base_defense(Enemy_Defence)),
   asserta(enemy_base_attack(Enemy_Attack)),
   asserta(enemy_special_attack(Enemy_Special)).
 
-%basis
-add_curr_HP_enemy(Added_curr_Hp):-
-  enemy_curr_HP(HP),
-  HP =< 0,
-  write('Enemy DEAD').
+check_dead:-
+	curr_HP(X),
+	X =< 0,
+	write('Enemey is dead.').
 
-add_curr_HP_enemy(Added_curr_Hp):-
+add_curr_HP_enemy(Added_curr_Hp):- %buat ngeattack enemy
   enemy_max_HP(Max_HP),
   enemy_curr_HP(Temp_Curr_Hp),
   FinalHp is Temp_Curr_Hp + Added_curr_Hp,
@@ -23,15 +23,31 @@ add_curr_HP_enemy(Added_curr_Hp):-
   retract(enemy_curr_HP(Curr_Hp)),
   asserta(enemy_curr_HP(FinalHp)).
 
-slime_attack:-
-  stat(slime,_,X,_,_),
+ %  DAMAGE : -1*(BaseDamageEnemey + BonusDamage)+(0.2*BaseDefence+BonusDefence(armor))
+enemy_attack:-
+  curr_enemy(Enemy),
+  stat(Enemy,_,X,_,_),
+  random(1,5,BonusDamage),
+  FinalDamage is BonusDamage+X,
+  base_defense(Z),
   equip_armor(Armor,Y,_),
-  add_curr_HP(-1*X-(0.3*(Y+10))).%DAMAGE : (BaseDamageEnemey)-(0.3*DEFENSE)
-slime_special_attack:-
-  %hitung turn buat special attack
-  stat(slime,_,_,_,X),
+  FinalDefencePlayer is 0.2*(Y+Z),
+  FinalDamageEnemy is -1*FinalDamage+(FinalDefencePlayer),
+  FinalDamageEnemy < 0,
+  add_curr_HP(FinalDamageEnemy).
+
+enemy_special_attack:-
+  curr_enemy(Enemy),
+  stat(Enemey,_,_,_,X),
+  random(1,7,BonusDamage),
+  FinalDamage is BonusDamage+X,
+  base_defense(Z),
   equip_armor(Armor,Y,_),
-  add_curr_HP(-1*X-(0.3*(Y+10))).%DAMAGE : 10
+  FinalDefencePlayer is 0.2*(Y+Z),
+  FinalDamageEnemy is -1*FinalDamage+(FinalDefencePlayer),
+  FinalDamageEnemy < 0,
+  add_curr_HP(FinalDamageEnemy).
+/*
 goblin_attack:-
   stat(goblin,_,X,_,_),
   equip_armor(Armor,Y,_),
@@ -50,11 +66,11 @@ wolf_special_attack:-
   stat(wolf,_,_,_,X),
   equip_armor(Armor,Y,_),
   add_curr_HP(-1*X-(0.3*(Y+10))).
-
+*/
 enemy_drop(_,X,Y):-
   random(1,20,BonusGold),
   FinalGold is BonusGold+Y,
-  add_gold(FinalGold),
+  add_gold(FinalGold), %final gold = BaseGoldEnemey + RandomBonusGold
   get_exp(X).
 
 usePotion:- %Potionnya ga ada

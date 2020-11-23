@@ -31,6 +31,15 @@ state(menu).
 
 :- dynamic(option/1).
 start:-
+  asserta(count_item(5)),
+  asserta(level(1)),
+  asserta(experience(0)),
+  asserta(max_HP(100)),
+  asserta(curr_HP(100)),
+  asserta(base_attack(10)),
+  asserta(special_attack(30)),
+  asserta(base_defense(10)),
+  asserta(gold(0)),
   print_title,nl,sleep(1),
   state(menu),
   write('Welcome, choose your job.'),nl,
@@ -113,6 +122,15 @@ quit:-
   retract(equip_armor(_,_,_)),
   retract(equip_acc(_,_,_,_,_)),
   retract(count_item(_)),
+  retract(curr_HP(_)),
+  retract(max_HP(_)),
   retract(job(_)),
+  retract(base_defense(_)),
+  retract(base_attack(_)),
+  retract(special_attack(_)),
+  retract(level(_)),
+  retract(experience(_)),
+  retract(inventory(_)),
+  retract(gold(_)),
   retract(state(_)),
   asserta(state(menu)).

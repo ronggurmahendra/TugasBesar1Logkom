@@ -73,7 +73,7 @@ gacha:-
     write('Not enough money!'),nl,!.
 %exitshop
 
-sell:- 
+sell:-
 	state(shop),
 	inventory([Head|Tail]),
 	inventory_([Head|Tail]),
@@ -86,7 +86,7 @@ sell:-
 	add_gold(50),
 	format("you sold ~w for 50 gold ~n",[Input]).
 	/*
-sell:- 
+sell:-
 	state(shop),
 	inventory,
 	write('What do you want to sell'),nl,
