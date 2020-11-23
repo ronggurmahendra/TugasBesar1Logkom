@@ -87,17 +87,17 @@ add_item(Item) :-
 	retract(inventory(Val_inventory)),
 	push(Item,Val_inventory,Final_inventory),
 	asserta(inventory(Final_inventory)).
-	
+
 add_item(Item) :-
 	count_item(Val_count_item),
 	Val_count_item >= 100,
 	write('inventory Full'),nl.
-	
+
 delete_item(Item) :-
 	retract(count_item(Val_count_item)),
 	Final_count_item is Val_count_item - 1,
 	asserta(count_item(Final_count_item)),
-	
+
 	retract(inventory(Val_inventory)),
 	delete_item_(Val_inventory,Item,Final_inventory),
 	asserta(inventory(Final_inventory)).
@@ -113,6 +113,13 @@ delete_item_([Head|Tail],Item,[Head|Result]) :-
 delete_item_([],Item,Result) :-
 	write('you dont have the Item').
 
+
+
+check_dead:-
+	curr_HP(X),
+	X =< 0,
+	write('You are dead.'),
+	quit.
 /*Stat Manipulation*/
 
 add_max_HP(Added_Hp):-
@@ -126,7 +133,9 @@ add_curr_HP(Added_curr_Hp):-
 	FinalHp is Temp_Curr_Hp + Added_curr_Hp,
 	Max_HP >= FinalHp,
 	retract(curr_HP(Curr_Hp)),
-	asserta(curr_HP(FinalHp)).
+	asserta(curr_HP(FinalHp)),
+	check_dead.
+
 %overheal
 add_curr_HP(Added_curr_Hp):-
 	max_HP(Max_HP),
@@ -134,8 +143,8 @@ add_curr_HP(Added_curr_Hp):-
 	FinalHp is Temp_Curr_Hp + Added_curr_Hp,
 	Max_HP < FinalHp,
 	retract(curr_HP(Curr_Hp)),
-	asserta(curr_HP(Max_HP)).
-
+	asserta(curr_HP(Max_HP)),
+	check_dead.
 
 add_base_attack(Added_base_attack):-
 	retract(base_attack(Base_attack)),
@@ -357,14 +366,13 @@ getElmt([Head|Tail],I,Elmt):-
 
 getElmt([Head|Tail],0,Elmt):-
 	Elmt is Head.
-	
-isElmt([Head|Tail],Elmt,Bool):- 
+
+isElmt([Head|Tail],Elmt,Bool):-
 	Head == Elmt,
 	Bool is 1.
 
-isElmt([Head|Tail],Elmt,Bool):- 
+isElmt([Head|Tail],Elmt,Bool):-
 	\+(Head == Elmt),
 	isElmt(Tail,Elmt,Bool).
-isElmt([],_,Bool):- 
+isElmt([],_,Bool):-
 	Bool is 0.
-
