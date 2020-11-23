@@ -1,5 +1,5 @@
 
-
+/*
 gacharesult(0):-
     add_item(Healthpotion), %masukin equipment yang mau digacha
     write('Congratulation you got Nol'),nl.
@@ -30,7 +30,8 @@ gacharesult(8):-
 gacharesult(9):-
     add_item(Healthpotion),
     write('Congratulation you got Nine'),nl.
-
+*/
+gachaList(['paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon','paimon']).
 shop:-
   state(normal),
   playerLoc(10,5),
@@ -61,7 +62,10 @@ gacha:-
     Gold >= 1000,
     random(0,9,Gacha_Number),
     add_gold(-1000),
-    gacharesult(Gacha_Number).
+	gachaList(GachaList),
+	getElmt(GachaList,Gacha_Number,GachaResult),
+	%format("~w ~n",[GachaResult]),
+	add_item(GachaResult).
 gacha:-
 	state(shop),
     gold(Gold),
@@ -92,6 +96,17 @@ sell:-
 	Bool == 0,
 	format("you don't have ~w ~n",[Input]).
 	*/
+%companion(ID,max_HP,base_defense,base_attack,special_attack)
+companion(paimon,20,20,20,50).
+companionList([paimon]).
+get_companion(Companion):-
+	companion(Companion,Max_HP_Bonus,Base_Defence_Bonus,Base_attack_Bonus,Special_attack_Bonus),
+	format("~w has join your party ~nyou gain numerous benefit",[Companion]),
+	add_max_HP(Max_HP_Bonus),
+	add_base_attack(Base_attack_Bonus),
+	add_special_attack(Special_attack_Bonus),
+	add_base_defense(Base_Defence_Bonus),
+	add_item(Companion).
 
 exitShop:-
 	state(shop),
