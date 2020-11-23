@@ -27,28 +27,62 @@ gold(0).
 
 /*
 class 0 all
-class 1 sswordman
+class 1 swordman
 class 2 archer
 class 3 sorcerer
 */
 /*weapon(weapon,damageValue,Class)*/
 weapon(beginnerSword,5,1).
+weapon(longsword,8,1).
+weapon(lamentSword,12,1).
+weapon(totsukaBlade,18,1).
+weapon(excalibur,24,1).
+
 weapon(beginnerBow,5,2).
+weapon(longbow,8,2).
+weapon(pleiadesBow,12,2).
+weapon(zephyrBow,18,2).
+weapon(quintessenceBow,24,2).
+
 weapon(beginnerStaff,5,3).
-weapon(longsword,10,1).
-weaponList([beginnerSword,beginnerBow,beginnerStaff,longsword]).
+weapon(magicStaff,8,3).
+weapon(wabbajack,12,3).
+weapon(sanguineRose,18,3).
+weapon(shadebinder,24,3).
+
+weaponList([beginnerSword,beginnerBow,beginnerStaff,longsword,lamentSword,totsukaBlade,excalibur,longbow,pleiadesBow,zephyrBow,quintessenceBow,magicStaff,wabbajack,sanguineRose,shadebinder]).
 /*armor(weapon,defenseValue,class)*/
 armor(beginnerPlate,5,1).
+armor(ironPlate,8,1).
+armor(phoenixPlate,10,1).
+armor(stronghold,15,1).
+
 armor(beginnerLeather,5,2).
+armor(stalkerVest,8,2).
+armor(frumiousVest,10,2).
+armor(gwisinVest,15,2).
+
 armor(beginnerRobe,5,3).
-armor(ironPlate,10,1).
-armorList([beginnerPlate,beginnerLeather,beginnerRobe,ironPlate]).
+armor(dreambaneRobes,8,3).
+armor(calamityRobes,10,3).
+armor(icefallMantle,15,3).
+
+armorList([beginnerPlate,beginnerLeather,beginnerRobe,ironPlate,phoenixPlate,stronghold,stalkerVest,frumiousVest,gwisinVest,dreambaneRobes,calamityRobes,icefallMantle]).
 /*equipment(weapon,damageValue,defenseValue,MaxHP,class)*/
 accessory(none,0,0,0,0).
-accessory(beltOfGiantStrengh,50,0,0,0).
-accessory(bracersOfDefence,0,50,0,0).
-accessory(amuletOfHealth,0,0,50,0).
-accessoryList([beltOfGiantStrengh,bracersOfDefence,amuletOfHealth]).
+accessory(beltOfGiantStrengh,15,0,0,0).
+accessory(bracersOfDefence,0,15,0,0).
+accessory(amuletOfHealth,0,0,15,0).
+accessory(dibellaAmulet,0,0,3,0).
+accessory(gargoyleAmulet,0,3,0,0).
+accessory(bloodlustAmulet,3,0,0,0).
+accessory(ariculationAmulet,2,2,2,0).
+accessory(exileCloak,0,0,10,0).
+accessory(holdfastMark,0,10,0,0).
+accessory(greatHuntBond,10,0,0,0).
+accessory(crystalOfStrength,8,8,8,0).
+
+accessoryList([beltOfGiantStrengh,bracersOfDefence,amuletOfHealth,dibellaAmulet,gargoyleAmulet,bloodlustAmulet,ariculationAmulet,exileCloak,holdfastMark,greatHuntBond,crystalOfStrength]).
 /* Class Name */
 class(0,Name):-
 	Name = any.
@@ -171,14 +205,14 @@ swap_weapon :-
 	state(normal),
 	write('Choose the weapon that you want to swap: '),nl,
 	print_weapon,
-	repeat,
-		read(Input),
-		inventory(List),
-		isElmt(List,Input,Bool),
-		(Bool == 0 -> write('You don`t have that item!'),nl,fail; !),
-		weapon(Input, Dmg, Class),
-		job(Class1),
-		(Class \== Class1 -> write('You can`t equip item for different class!'),nl,fail; write('Weapon Swapped!'),nl,!),
+
+	read(Input),
+	inventory(List),
+	isElmt(List,Input,Bool),
+	(Bool == 0 -> write('You don`t have that item!'),nl,fail; !),
+	weapon(Input, Dmg, Class),
+	job(Class1),
+	(Class \== Class1 -> write('You can`t equip item for different class!'),nl,fail; write('Weapon Swapped!'),nl,!),
 
 	retract(equip_weapon(X,_,_)),
 	asserta(equip_weapon(Input,Dmg,Class)),
@@ -189,14 +223,14 @@ swap_armor :-
 	state(normal),
 	write('Choose the armor that you want to swap: '),nl,
 	print_armor,
-	repeat,
-		read(Input),
-		inventory(List),
-		isElmt(List,Input,Bool),
-		(Bool == 0 -> write('You don`t have that item!'),nl,fail; !),
-		armor(Input, Def, Class),
-		job(Class1),
-		(Class \== Class1 -> write('You can`t equip item for different class!'),nl,fail; write('Armor Swapped!'),nl,!),
+	
+	read(Input),
+	inventory(List),
+	isElmt(List,Input,Bool),
+	(Bool == 0 -> write('You don`t have that item!'),nl,fail; !),
+	armor(Input, Def, Class),
+	job(Class1),
+	(Class \== Class1 -> write('You can`t equip item for different class!'),nl,fail; write('Armor Swapped!'),nl,!),
 
 	retract(equip_armor(X,_,_)),
 	asserta(equip_armor(Input,Def,Class)),
@@ -207,12 +241,12 @@ swap_accessory :-
 	state(normal),
 	write('Choose the accessory that you want to swap: '),nl,
 	print_accessory,
-	repeat,
-		read(Input),
-		inventory(List),
-		isElmt(List,Input,Bool),
-		(Bool == 0 -> write('You don`t have that item'),nl,fail; write('Accessory Swapped!'),nl,!),
-		accessory(Input, Dmg, Def, HP, Class),
+
+	read(Input),
+	inventory(List),
+	isElmt(List,Input,Bool),
+	(Bool == 0 -> write('You don`t have that item'),nl,fail; write('Accessory Swapped!'),nl,!),
+	accessory(Input, Dmg, Def, HP, Class),
 
 	retract(equip_acc(X,_,_,_,_)),
 	asserta(equip_acc(Input,Dmg,Def,HP,Class)),
