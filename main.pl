@@ -39,6 +39,7 @@ start:-
   write('3. Sorcered'),nl,
   read(X),
   option(X),
+  asserta(count_item(5)),
   asserta(job(X)),
   retract(state(_)),
   asserta(state(normal)).
@@ -66,7 +67,7 @@ option(_):-
   write('False.'),nl.
 
 help:-
-  write('1.map,2.status,3.map,4.status,5.shop(saat di shop),6.quit'),nl.
+  format("1.map(W to move upward, A to move to the left, D to move to the right, S to move downward)~n2.status~n3.map~n4.status~n5.shop(saat di shop)~n6.quit",[]),nl.
 
 map:-
   state(normal),
@@ -111,6 +112,7 @@ quit:-
   retract(equip_weapon(_,_,_)),
   retract(equip_armor(_,_,_)),
   retract(equip_acc(_,_,_,_,_)),
+  retract(count_item(_)),
   retract(job(_)),
   retract(state(_)),
   asserta(state(menu)).

@@ -13,7 +13,9 @@
 :-dynamic(equip_armor/3).
 :-dynamic(equip_acc/5).
 :-dynamic(job/1).
+:-dynamic(count_item/1).
 % job(1).
+count_item(5).
 level(1).
 experience(0).
 max_HP(100).
@@ -77,11 +79,25 @@ push(Element,[],[Element]).
 push(Element,[Head|Tail],[Head|Result]) :- push(Element,Tail,Result).
 
 add_item(Item) :-
+	count_item(Val_count_item),
+	Val_count_item < 100,
+	retract(count_item(Val_count_item)),
+	Final_count_item is Val_count_item + 1,
+	asserta(count_item(Final_count_item)),
 	retract(inventory(Val_inventory)),
 	push(Item,Val_inventory,Final_inventory),
 	asserta(inventory(Final_inventory)).
-
+	
+add_item(Item) :-
+	count_item(Val_count_item),
+	Val_count_item >= 100,
+	write('inventory Full'),nl.
+	
 delete_item(Item) :-
+	retract(count_item(Val_count_item)),
+	Final_count_item is Val_count_item - 1,
+	asserta(count_item(Final_count_item)),
+	
 	retract(inventory(Val_inventory)),
 	delete_item_(Val_inventory,Item,Final_inventory),
 	asserta(inventory(Final_inventory)).
@@ -298,12 +314,16 @@ inventory :-
 	state(normal),
 	inventory([Head|Tail]),
 	inventory_([Head|Tail]).
-
+inventory :-
+	state(shop),
+	inventory([Head|Tail]),
+	inventory_([Head|Tail]).
 inventory_([Head|Tail]) :-
 	count(Head,[Head|Tail],CountItem),
 	format("~w (~w) ~n",[Head, CountItem]),
 	deleteAllElmt(Head,Tail,DelResult),
 	inventory_(DelResult).
+inventory_([]).
 
 count(_,[],Result):-
 	Result is 0.
