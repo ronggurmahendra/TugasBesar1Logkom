@@ -15,16 +15,6 @@
 :-dynamic(job/1).
 :-dynamic(count_item/1).
 % job(1).
-count_item(5).
-level(1).
-experience(0).
-max_HP(100).
-curr_HP(100).
-base_attack(10).
-special_attack(30).
-base_defense(10).
-gold(0).
-
 /*
 class 0 all
 class 1 swordman
@@ -147,8 +137,6 @@ delete_item_([Head|Tail],Item,[Head|Result]) :-
 delete_item_([],Item,Result) :-
 	write('you dont have the Item').
 
-
-
 check_dead:-
 	curr_HP(X),
 	X =< 0,
@@ -223,7 +211,7 @@ swap_armor :-
 	state(normal),
 	write('Choose the armor that you want to swap: '),nl,
 	print_armor,
-	
+
 	read(Input),
 	inventory(List),
 	isElmt(List,Input,Bool),
@@ -361,6 +349,10 @@ inventory :-
 	state(shop),
 	inventory([Head|Tail]),
 	inventory_([Head|Tail]).
+inventory :-
+	state(battle),
+	inventory([Head|Tail]),
+	inventory_([Head|Tail]).
 inventory_([Head|Tail]) :-
 	count(Head,[Head|Tail],CountItem),
 	format("~w (~w) ~n",[Head, CountItem]),
@@ -412,4 +404,3 @@ isElmt([Head|Tail],Elmt,Bool):-
 isElmt([Head|Tail],Elmt,Bool):-
 	\+(Head == Elmt),
 	isElmt(Tail,Elmt,Bool).
-

@@ -41,7 +41,7 @@ msg :-
     write('Your are at (10,5).'),nl,
     write('Type `shop.` to access shop.'),nl,!.
 msg :-
-    playerLoc(5,5),
+    playerLoc(10,15),
     write('Your are at (5,5).'),nl,
     write('Type `quest.` to access quest log.'),nl,!.
 msg :-
