@@ -98,6 +98,7 @@ level_up(EXP) :-
 	add_special_attack(2),
 	add_base_defense(1),
 	retract(experience(Val_Exp)) ,FinalXp is Val_Exp - 100, asserta(experience(FinalXp)).
+level_up(EXP).
 /*Inventory*/
 push(Element,[],[Element]).
 push(Element,[Head|Tail],[Head|Result]) :- push(Element,Tail,Result).
@@ -142,8 +143,12 @@ check_dead:-
 	X =< 0,
 	write('You are dead.'),
 	quit.
-/*Stat Manipulation*/
 
+check_dead:-
+	curr_HP(X),
+	X > 0.
+
+/*Stat Manipulation*/
 add_max_HP(Added_Hp):-
 	retract(max_HP(Hp)),
 	Final_Max_Hp is Hp + Added_Hp,

@@ -28,15 +28,15 @@ initbattle(Monster):-
   format("Level: ~w ~n",[Level]),
   format("Health: ~w ~n",[Temp_HP]),
   format("Attack: ~w ~n",[Temp_Attack]),
-  format("Defense: ~w ~n",[Temp_Defence]).
-
-
-
+  format("Defense: ~w ~n",[Temp_Defence]),nl,
+  format("What will you do:~n1.attack~n2.special_attack~n3.usePotion~n4.run",[]).
 
 check_dead_enemy:-
   enemy_curr_HP(X),
   X =< 0,
   % manajemen state
+  reward,
+  item_drop,
   retract(curr_enemy(_)),
   retract(enemy_max_HP(_)),
   retract(enemy_curr_HP(_)),
@@ -49,8 +49,15 @@ check_dead_enemy:-
   asserta(player_cooldown(0)),
   retract(state(_)),
   asserta(state(normal)),
-  write('Enemy is dead.').
+  write('Enemy is dead.'),nl.
 %if not dead enemy attack
+check_dead_enemy:-
+  enemy_curr_HP(X),
+  X > 0,
+  curr_enemy(Enemy),
+  enemy_curr_HP(HP),
+  enemy_max_HP(MaxHP),
+  format("Current enemy: ~w ~2f/~w HP~n",[Enemy,HP,MaxHP]).
 
 add_curr_HP_enemy(Added_curr_Hp):- %buat ngeattack enemy
   enemy_max_HP(Max_HP),
@@ -61,6 +68,43 @@ add_curr_HP_enemy(Added_curr_Hp):- %buat ngeattack enemy
   asserta(enemy_curr_HP(FinalHp)),
   check_dead_enemy.
  %  DAMAGE : -1*(BaseDamageEnemey + BonusDamage)+(0.2*BaseDefence+BonusDefence(armor))
+
+enemy_turn:-
+  enemy_cooldown(X),
+  X == 0,
+  random(1,2,HasilRandom),
+  enemy_option(HasilRandom).
+enemy_turn:-
+  enemy_cooldown(X),
+  \+(X == 0),
+  enemy_option(1).
+
+enemy_option(1):-
+  enemy_attack,
+  cooldown_management(1), %1 for player 2 for enemy
+  cooldown_management(2).
+enemy_option(2):-
+  enemy_special_attack,
+  cooldown_management(1),
+  cooldown_management(2).
+
+cooldown_management(1):-
+  player_cooldown(X),
+  X == 0,!.
+cooldown_management(1):-
+  player_cooldown(X),
+  X is X-1,
+  retract(player_cooldown(_)),
+  asserta(player_cooldown(X)).
+
+cooldown_management(2):-
+  enemy_cooldown(X),
+  X == 0,!.
+cooldown_management(2):-
+  enemy_cooldown(X),
+  X is X-1,
+  retract(enemy_cooldown(_)),
+  asserta(enemy_cooldown(X)).
 
 enemy_attack:-
   curr_enemy(Enemy),
@@ -73,17 +117,18 @@ enemy_attack:-
   FinalDamageEnemy is -1*FinalDamage+(FinalDefencePlayer),
   FinalDamageEnemy < 0,
   PrintDamage is -1*FinalDamageEnemy,
-  format("~w deal ~w damage ~n",[Enemy,PrintDamage]),
+  format("~w deal ~2f damage ~n",[Enemy,PrintDamage]),
   add_curr_HP(FinalDamageEnemy).
 
 enemy_special_attack:-
   curr_enemy(Enemy),
-  enemy_cooldown(0),
   stat(Enemy,_,_,_,X),
-  format("~w deal ~w damage ~n",[Enemy,X]),
+  format("~w deal ~2f damage ~n",[Enemy,X]),
+  retract(enemy_cooldown(_)),
+  asserta(enemy_cooldown(3)),
   add_curr_HP(-X).
 
-player_attack:-
+attack:-
   state(battle),
   curr_enemy(Enemy),
   stat(Enemy,_,_,Y,_),
@@ -94,53 +139,46 @@ player_attack:-
   FinalDamagePlayer is -1*(DamagePlayer - 0.3*Y),
   FinalDamagePlayer < 0,
   PrintDamage is -1*FinalDamagePlayer,
-  format("You deal ~w damage ~n",[PrintDamage]),
-  add_curr_HP_enemy(FinalDamagePlayer).
-player_special_attack:-
+  format("You deal ~2f damage ~n",[PrintDamage]),
+  add_curr_HP_enemy(FinalDamagePlayer),
+  enemy_turn.
+
+special_attack:-
+  player_cooldown(X),
+  X > 0,
+  format("You still have ~w turn cooldown ~n",[X]).
+
+special_attack:-
   state(battle),
-  player_cooldown(0),
+  player_cooldown(X),
+  X == 0,
   curr_enemy(Enemy),
   stat(Enemy,_,_,Y,_),
   special_attack(SpecialAttack),
-  PrintDamage is -1*SpecialAttack,
-  write('You use your special attack.'),ln,
-  format("You deal ~w damage ~n",[PrintDamage]),
-  add_curr_HP_enemy(-SpecialAttack).
+  PrintDamage is SpecialAttack,
+  write('You use your special attack.'),nl,
+  format("You deal ~2f damage ~n",[PrintDamage]),
+  add_curr_HP_enemy(-SpecialAttack),
+  retract(player_cooldown(_)),
+  asserta(player_cooldown(3)),
+  enemy_turn.
 
-/*
-goblin_attack:-
-  stat(goblin,_,X,_,_),
-  equip_armor(Armor,Y,_),
-  add_curr_HP(-1*X-(0.3*(Y+10))).
-goblin_special_attack:-
-  %hitung turn buat special attack
-  stat(goblin,_,_,_,X),
-  equip_armor(Armor,Y,_),
-  add_curr_HP(-1*X-(0.3*(Y+10))).
-wolf_attack:-
-  stat(wolf,_,X,_,_),
-  equip_armor(Armor,Y,_),
-  add_curr_HP(-1*X-(0.3*(Y+10))).
-wolf_special_attack:-
-  %hitung turn buat special attack
-  stat(wolf,_,_,_,X),
-  equip_armor(Armor,Y,_),
-  add_curr_HP(-1*X-(0.3*(Y+10))).
-*/
-enemy_drop(_,X,Y):-
+reward:-
+  curr_enemy(Enemy),
+  enemy_drop(Enemy,X,Y),
   random(1,20,BonusGold),
   FinalGold is BonusGold+Y,
   add_gold(FinalGold), %final gold = BaseGoldEnemey + RandomBonusGold
   get_exp(X).
-  
-item_drop:- 
+
+item_drop:-
+  write('item drop'),nl,
 	curr_enemy(Enemy),
 	dropTable(Enemy,DropList),
 	random(0,4,DropRandom),
 	getElmt(DropList,DropRandom,Elmt),
 	format("the ~w drop ~w ~n",[Enemy,Elmt]),
 	add_item(Elmt).
-	
 
 usePotion:- %Potionnya ga ada
     inventory(X),
@@ -150,3 +188,18 @@ usePotion:- %Potionnya ga ada
 usePotion:- %healthpotion
 	add_curr_HP(50), %tambah 50 HP ke player
 	delete_item('Health Potion'). %hilangin 1 healthpotion di list
+
+run:-
+	random(1,10,ChanceRun),
+	runSuccess(ChanceRun).
+
+runSuccess(ChanceRun):-
+	ChanceRun < 7,
+	write('you successfully run away'),
+	retract(state(_)),
+	assert(state(normal)).
+
+runSuccess(ChanceRun):-
+	ChanceRun >= 7,
+	write('you fail to run away'),
+	enemy_turn.

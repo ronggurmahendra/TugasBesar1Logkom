@@ -50,11 +50,11 @@ option(1):-
   asserta(count_item(5)),
   asserta(level(1)),
   asserta(experience(0)),
-  asserta(max_HP(100)),
-  asserta(curr_HP(100)),
-  asserta(base_attack(10)),
+  asserta(max_HP(150)),
+  asserta(curr_HP(150)),
+  asserta(base_attack(15)),
   asserta(special_attack(30)),
-  asserta(base_defense(10)),
+  asserta(base_defense(20)),
   asserta(gold(0)),
   write('You choose swordsman, let`s explore the world!'),nl,
   asserta(equip_weapon(beginnerSword,5,1)),
@@ -95,7 +95,17 @@ option(_):-
   write('False.'),nl.
 
 help:-
+  state(menu),
+  format("1.start untuk memulai petualangan~n",[]),nl.
+help:-
+  state(normal),
   format("1.map(W to move upward, A to move to the left, D to move to the right, S to move downward)~n2.status~n3.map~n4.status~n5.shop(saat di shop)~n6.quit",[]),nl.
+help:-
+  state(shop),
+  format("1.healthpotion: untuk membeli Health Potion~n2.gacha: Beli barang secara acak (SPECIAL chance for rare drop)~n3.sell: jual barang dari inventory",[]),nl.
+help:-
+  state(battle),
+  format("1.attack~n2.special_attack~n3.usePotion~n4.run",[]).
 
 map:-
   state(normal),
@@ -219,7 +229,7 @@ quit:-
   retract(gold(_)),
   retract(state(_)),
   asserta(state(menu)).
-  
+
 quit:-
   state(battle),
   retract(equip_weapon(_,_,_)),
