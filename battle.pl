@@ -37,8 +37,9 @@ check_dead_enemy:-
   X =< 0,
   % manajemen state
   reward,
-  item_drop,
-  retract(curr_enemy(_)),
+  % curr_enemy(Enemy),
+  retract(curr_enemy(Enemy)),
+  item_drop(Enemy),
   retract(enemy_max_HP(_)),
   retract(enemy_curr_HP(_)),
   retract(enemy_base_defense(_)),
@@ -66,7 +67,7 @@ add_curr_HP_enemy(Added_curr_Hp):- %buat ngeattack enemy
   enemy_max_HP(Max_HP),
   enemy_curr_HP(Temp_Curr_Hp),
   FinalHp is Temp_Curr_Hp + Added_curr_Hp,
-  Max_HP >= FinalHp,
+  % Max_HP >= FinalHp,
   retract(enemy_curr_HP(Curr_Hp)),
   asserta(enemy_curr_HP(FinalHp)),
   check_dead_enemy.
@@ -173,6 +174,7 @@ special_attack:-
   enemy_turn.
 
 reward:-
+  enemy_now(true),
   curr_enemy(Enemy),
   enemy_drop(Enemy,X,Y),
   random(1,20,BonusGold),
@@ -180,9 +182,10 @@ reward:-
   add_gold(FinalGold), %final gold = BaseGoldEnemey + RandomBonusGold
   get_exp(X).
 
-item_drop:-
+item_drop(Enemy):-
+  enemy_now(true),
   write('item drop'),nl,
-	curr_enemy(Enemy),
+	% curr_enemy(Enemy),
 	dropTable(Enemy,DropList),
 	random(0,4,DropRandom),
 	getElmt(DropList,DropRandom,Elmt),
@@ -204,12 +207,23 @@ run:-
 
 runSuccess(ChanceRun):-
 	ChanceRun < 7,
-	write('you successfully run away'),
-	retract(state(_)),
-	assert(state(normal)).
+	write('you successfully run away'),nl,
+  retract(curr_enemy(_)),
+  retract(enemy_max_HP(_)),
+  retract(enemy_curr_HP(_)),
+  retract(enemy_base_defense(_)),
+  retract(enemy_base_attack(_)),
+  retract(enemy_special_attack(_)),
+  retract(enemy_cooldown(_)),
+  asserta(enemy_cooldown(0)),
+  retract(player_cooldown(_)),
+  asserta(player_cooldown(0)),
+  retract(state(_)),
+  asserta(state(normal)),
+  retract(enemy_now(_)).
 
 runSuccess(ChanceRun):-
 	ChanceRun >= 7,
-	write('you fail to run away'),
+	write('you fail to run away'),nl,
   asserta(enemy_now(true)),
 	enemy_turn.

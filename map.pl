@@ -43,6 +43,7 @@ msg :-
 msg :-
     playerLoc(10,15),
     write('Your are at (5,5).'),nl,
+    fetchQuest,
     write('Type `quest.` to access quest log.'),nl,!.
 msg :-
     playerLoc(X,Y),

@@ -100,7 +100,7 @@ level_up(EXP) :-
 	retract(experience(Val_Exp)) ,FinalXp is Val_Exp - 100, asserta(experience(FinalXp)).
 level_up(EXP).
 /*Inventory*/
-push(Element,[],[Element]).
+push(Element,[],[Element]) :- !.
 push(Element,[Head|Tail],[Head|Result]) :- push(Element,Tail,Result).
 
 add_item(Item) :-
@@ -111,10 +111,10 @@ add_item(Item) :-
 	asserta(count_item(Final_count_item)),
 	retract(inventory(Val_inventory)),
 	push(Item,Val_inventory,Final_inventory),
-	asserta(inventory(Final_inventory)).
+	asserta(inventory(Final_inventory)),!.
 
 add_item(Item) :-
-	count_item(Val_count_item),
+	count_item(Val_count_item),!,
 	Val_count_item >= 100,
 	write('inventory Full'),nl.
 
@@ -389,14 +389,15 @@ deleteAllElmt(Elmt,[Head|Tail],Result):-
 deleteAllElmt(_,[],[]).
 
 getElmt([Head|Tail],0,Elmt):-
-	Elmt = Head.
+	Elmt = Head,!.
 
 getElmt([Head|Tail],I,Elmt):-
 	Temp is I-1,
 	getElmt(Tail,Temp,Elmt).
 
-getElmt([Head|Tail],0,Elmt):-
-	Elmt = Head.
+% getElmt([Head|Tail],0,Elmt):-
+% 	Elmt = Head,!.
+
 isElmt([],_,Bool):-
 	Bool is 0.
 

@@ -188,7 +188,7 @@ status:-
   level(Level),
   format("Level: ~w ~n",[Level]),
   curr_HP(CurrHP), max_HP(MaxHP),
-  format("Health: ~w/~w ~n",[CurrHP, MaxHP]),
+  format("Health: ~2f/~w ~n",[CurrHP, MaxHP]),
   base_attack(Attack),
   equip_weapon(Weapon,X,_),
   equip_acc(Acc,A,B,_,_),
