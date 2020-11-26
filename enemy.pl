@@ -14,3 +14,9 @@ enemy_drop(wolf,25,300).
 stat(slime,35,5,2,10).
 stat(goblin,50,8,3,14).
 stat(wolf,75,12,5,20).
+
+
+%drop
+dropTable(slime,[slimeSword,slimeStaff,slimeBow,'Health Potion','Health Potion']).
+dropTable(wolf,[wolfSword,wolfStaff,wolfBow,'Health Potion','Health Potion']).
+dropTable(goblin,[goblinSword,goblinStaff,goblinBow,'Health Potion','Health Potion']).
