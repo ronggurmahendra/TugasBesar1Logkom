@@ -30,6 +30,9 @@ initbattle(Monster):-
   format("Attack: ~w ~n",[Temp_Attack]),
   format("Defense: ~w ~n",[Temp_Defence]).
 
+
+
+
 check_dead_enemy:-
   enemy_curr_HP(X),
   X =< 0,
@@ -129,6 +132,15 @@ enemy_drop(_,X,Y):-
   FinalGold is BonusGold+Y,
   add_gold(FinalGold), %final gold = BaseGoldEnemey + RandomBonusGold
   get_exp(X).
+  
+item_drop:- 
+	curr_enemy(Enemy),
+	dropTable(Enemy,DropList),
+	random(0,4,DropRandom),
+	getElmt(DropList,DropRandom,Elmt),
+	format("the ~w drop ~w ~n",[Enemy,Elmt]),
+	add_item(Elmt).
+	
 
 usePotion:- %Potionnya ga ada
     inventory(X),
