@@ -31,7 +31,7 @@ gacharesult(9):-
     add_item(Healthpotion),
     write('Congratulation you got Nine'),nl.
 */
-gachaList([beginnerSword,beginnerBow,beginnerStaff,longsword,lament,totsukaBlade,excalibur,longbow,pleiades,zephyrBow,quintessenceBow,magicStaff,wabbajack,sanguineRose,shadebinder,beginnerPlate,beginnerLeather,beginnerRobe,ironPlate,phoenixPlate,stronghold,stalkerVest,frumiousVest,gwisinVest,dreambaneRobes,calamityRobes,icefallMantle,beltOfGiantStrengh,bracersOfDefence,amuletOfHealth,dibellaAmulet,gargoyleAmulet,bloodlustAmulet,ariculationAmulet,exileCloak,holdfastMark,greatHuntBond,crystalOfStrength]).
+gachaList([beginnerSword,beginnerBow,beginnerStaff,longsword,lament,totsukaBlade,excalibur,longbow,pleiades,zephyrBow,quintessenceBow,magicStaff,wabbajack,sanguineRose,shadebinder,beginnerPlate,beginnerLeather,beginnerRobe,ironPlate,phoenixPlate,stronghold,stalkerVest,frumiousVest,gwisinVest,dreambaneRobes,calamityRobes,icefallMantle,beltOfGiantStrengh,bracersOfDefence,amuletOfHealth,dibellaAmulet,gargoyleAmulet,bloodlustAmulet,ariculationAmulet,exileCloak,holdfastMark,greatHuntBond,crystalOfStrength,paimon]).
 shop:-
   state(normal),
   playerLoc(10,5),
@@ -60,7 +60,7 @@ gacha:-
 	state(shop),
     gold(Gold),
     Gold >= 1000,
-    random(0,38,Gacha_Number),
+    random(0,39,Gacha_Number),
     add_gold(-1000),
 	gachaList(GachaList),
 	getElmt(GachaList,Gacha_Number,GachaResult),
