@@ -144,9 +144,7 @@ check_dead:-
 	write('You are dead.'),
 	quit.
 
-check_dead:-
-	curr_HP(X),
-	X > 0.
+check_dead.
 
 /*Stat Manipulation*/
 add_max_HP(Added_Hp):-

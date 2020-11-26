@@ -2,6 +2,7 @@
 :- dynamic(curr_enemy/1).
 :- dynamic(player_cooldown/1).
 :- dynamic(enemy_cooldown/1).
+:- dynamic(enemy_now/1).
 %inisialisasi initialisasi
 
 player_cooldown(0).
@@ -49,9 +50,11 @@ check_dead_enemy:-
   asserta(player_cooldown(0)),
   retract(state(_)),
   asserta(state(normal)),
+  retract(enemy_now(_)),
   write('Enemy is dead.'),nl.
 %if not dead enemy attack
 check_dead_enemy:-
+  enemy_now(true),
   enemy_curr_HP(X),
   X > 0,
   curr_enemy(Enemy),
@@ -70,13 +73,15 @@ add_curr_HP_enemy(Added_curr_Hp):- %buat ngeattack enemy
  %  DAMAGE : -1*(BaseDamageEnemey + BonusDamage)+(0.2*BaseDefence+BonusDefence(armor))
 
 enemy_turn:-
+  enemy_now(true),
   enemy_cooldown(X),
   X == 0,
-  random(1,2,HasilRandom),
+  random(1,3,HasilRandom),
   enemy_option(HasilRandom).
 enemy_turn:-
+  enemy_now(true),
   enemy_cooldown(X),
-  \+(X == 0),
+  X > 0,
   enemy_option(1).
 
 enemy_option(1):-
@@ -93,18 +98,18 @@ cooldown_management(1):-
   X == 0,!.
 cooldown_management(1):-
   player_cooldown(X),
-  X is X-1,
+  FinalCD is X - 1,
   retract(player_cooldown(_)),
-  asserta(player_cooldown(X)).
+  asserta(player_cooldown(FinalCD)).
 
 cooldown_management(2):-
   enemy_cooldown(X),
   X == 0,!.
 cooldown_management(2):-
   enemy_cooldown(X),
-  X is X-1,
+  FinalCD is X - 1,
   retract(enemy_cooldown(_)),
-  asserta(enemy_cooldown(X)).
+  asserta(enemy_cooldown(FinalCD)).
 
 enemy_attack:-
   curr_enemy(Enemy),
@@ -118,14 +123,16 @@ enemy_attack:-
   FinalDamageEnemy < 0,
   PrintDamage is -1*FinalDamageEnemy,
   format("~w deal ~2f damage ~n",[Enemy,PrintDamage]),
+  retract(enemy_now(_)),
   add_curr_HP(FinalDamageEnemy).
 
 enemy_special_attack:-
   curr_enemy(Enemy),
   stat(Enemy,_,_,_,X),
-  format("~w deal ~2f damage ~n",[Enemy,X]),
+  format("~w special deal ~2f damage ~n",[Enemy,X]),
   retract(enemy_cooldown(_)),
   asserta(enemy_cooldown(3)),
+  retract(enemy_now(_)),
   add_curr_HP(-X).
 
 attack:-
@@ -140,6 +147,7 @@ attack:-
   FinalDamagePlayer < 0,
   PrintDamage is -1*FinalDamagePlayer,
   format("You deal ~2f damage ~n",[PrintDamage]),
+  asserta(enemy_now(true)),
   add_curr_HP_enemy(FinalDamagePlayer),
   enemy_turn.
 
@@ -158,6 +166,7 @@ special_attack:-
   PrintDamage is SpecialAttack,
   write('You use your special attack.'),nl,
   format("You deal ~2f damage ~n",[PrintDamage]),
+  asserta(enemy_now(true)),
   add_curr_HP_enemy(-SpecialAttack),
   retract(player_cooldown(_)),
   asserta(player_cooldown(3)),
@@ -202,4 +211,5 @@ runSuccess(ChanceRun):-
 runSuccess(ChanceRun):-
 	ChanceRun >= 7,
 	write('you fail to run away'),
+  asserta(enemy_now(true)),
 	enemy_turn.
