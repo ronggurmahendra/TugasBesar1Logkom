@@ -47,6 +47,7 @@ load:-
   read(Stream,In),
   asserta(In),
   save(MaxHP,CurrHP,BaseDefense,BaseAttack,SpecialAttack,Level,Experience,Inventory,Gold,EquipWeapon,EquipArmor,EquipAcc,Job,CountItem,PlayerLocX,PlayerLocY),
+  
   asserta(max_HP(MaxHP)),
   asserta(curr_HP(CurrHP)),
   asserta(base_defense(BaseDefense)),
@@ -69,4 +70,5 @@ load:-
   retract(state(_)),
   asserta(state(normal)),
   write('Load berhasil, memulai petualangan'),
+  retract(save(MaxHP,CurrHP,BaseDefense,BaseAttack,SpecialAttack,Level,Experience,Inventory,Gold,EquipWeapon,EquipArmor,EquipAcc,Job,CountItem,PlayerLocX,PlayerLocY)),
   close(Stream).
