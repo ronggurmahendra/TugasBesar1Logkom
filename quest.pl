@@ -2,7 +2,7 @@
 :- dynamic(questGoal/3).
 % quest(slimeKills, goblinKills, wolfKills).
 % questGoal(slimeKillsGoal, goblinKillsGoal, wolfKillsGoal).
-quest(0,0,0).
+quest(7,5,3).
 questGoal(7,5,3).
 
 quest :-
@@ -28,7 +28,8 @@ turnInQuest :-
   GoldReward is 2000 * Wg,
   XPReward is 100 * Wg,
   add_gold(GoldReward),
-  get_xp(XPReward),
+  get_exp(XPReward),
+  format("You get ~w Gold and ~w XP ~n", [GoldReward, XPReward]),
 
   retract(quest(_,_,_)),
   asserta(quest(0,0,0)),
@@ -36,7 +37,7 @@ turnInQuest :-
   retract(questGoal(_,_,_)),
   asserta(questGoal(NextSg, NextGg, NextWg)),
   write('Your next quest: '),nl,
-  format(" Kill ~w slimes ~n Kill ~w goblin ~n Kill ~w wolf ~n ~n", [NextSg, NextGg, NextWg]).
+  format(" Kill ~w slimes ~n Kill ~w goblin ~n Kill ~w wolf ~n ~n", [NextSg, NextGg, NextWg]),!.
 
 turnInQuest :-
   playerLoc(X,Y),
