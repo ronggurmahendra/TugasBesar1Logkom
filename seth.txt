@@ -1,14 +1,4 @@
-
-                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                    
-`7MMF' `YMM'`7MMF`7MN.   `7MF' .g8"""bgd      `7MM"""Yb. `7MM"""Mq.       db       .g8"""bgd   .g8""8q. `7MN.   `7MF'    `7MMF'.M"""bgd           db     `7MM"""Mq`7MM"""Mq`7MM"""Mq.   .g8""8q.      db       .g8"""bgd `7MMF'  `7MMF`7MMF`7MN.   `7MF' .g8"""bgd  
-  MM   .M'    MM   MMN.    M .dP'     `M        MM    `Yb. MM   `MM.     ;MM:    .dP'     `M .dP'    `YM. MMN.    M        MM ,MI    "Y          ;MM:      MM   `MM.MM   `MM.MM   `MM..dP'    `YM.   ;MM:    .dP'     `M   MM      MM   MM   MMN.    M .dP'     `M  
-  MM .d"      MM   M YMb   M dM'       `        MM     `Mb MM   ,M9     ,V^MM.   dM'       ` dM'      `MM M YMb   M        MM `MMb.             ,V^MM.     MM   ,M9 MM   ,M9 MM   ,M9 dM'      `MM  ,V^MM.   dM'       `   MM      MM   MM   M YMb   M dM'       `  
-  MMMMM.      MM   M  `MN. M MM                 MM      MM MMmmdM9     ,M  `MM   MM          MM        MM M  `MN. M        MM   `YMMNq.        ,M  `MM     MMmmdM9  MMmmdM9  MMmmdM9  MM        MM ,M  `MM   MM            MMmmmmmmMM   MM   M  `MN. M MM           
-  MM  VMA     MM   M   `MM.M MM.    `7MMF'      MM     ,MP MM  YM.     AbmmmqMA  MM.    `7MMFMM.      ,MP M   `MM.M        MM .     `MM        AbmmmqMA    MM       MM       MM  YM.  MM.      ,MP AbmmmqMA  MM.           MM      MM   MM   M   `MM.M MM.    `7MMF'
-  MM   `MM.   MM   M     YMM `Mb.     MM        MM    ,dP' MM   `Mb.  A'     VML `Mb.     MM `Mb.    ,dP' M     YMM        MM Mb     dM       A'     VML   MM       MM       MM   `Mb.`Mb.    ,dP'A'     VML `Mb.     ,'   MM      MM   MM   M     YMM `Mb.     MM  
-.JMML.   MMb.JMML.JML.    YM   `"bmmmdPY      .JMMmmmdP' .JMML. .JMM.AMA.   .AMMA. `"bmmmdPY   `"bmmd"' .JML.    YM      .JMMLP"Ybmmd"      .AMA.   .AMMA.JMML.   .JMML.   .JMML. .JMM. `"bmmd"'.AMA.   .AMMA. `"bmmmd'  .JMML.  .JMML.JMML.JML.    YM   `"bmmmdPY  
-                                                                                                                                                                                                                                                                    
+                                                                                  
                                                                                                                                                                                                                                                                     
 
 
