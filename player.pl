@@ -145,7 +145,8 @@ delete_item_([],Item,Result) :-
 check_dead:-
 	curr_HP(X),
 	X =< 0,
-	write('You are dead.'),
+	%write('You are dead.'),
+	print_file('YouDied.txt'),
 	retract(curr_enemy(_)),
 	retract(enemy_max_HP(_)),
 	retract(enemy_curr_HP(_)),

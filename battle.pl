@@ -150,7 +150,7 @@ enemy_attack:-
 enemy_special_attack:-
   curr_enemy(Enemy),
   stat(Enemy,_,_,_,X),
-  format("~w special deal ~2f damage ~n",[Enemy,X]),
+  format("~w use special attack deal ~2f damage ~n",[Enemy,X]),
   retract(enemy_cooldown(_)),
   asserta(enemy_cooldown(3)),
   retract(enemy_now(_)),
@@ -210,13 +210,14 @@ reward :- !.
 item_drop(Enemy):-
   enemy_now(true),
   Enemy == 'EvilDragon',
-  write('YOU HAVE WON!!!!!!!!!!'),nl,
+  %write('YOU HAVE WON!!!!!!!!!!'),nl,
+  print_file('YouHaveWon.txt'),
   quit,!.
   
 item_drop(Enemy):-
   enemy_now(true),
     \+(Enemy == 'EvilDragon'),
-  write('item drop'),nl,
+  %write('item drop'),nl,
 	% curr_enemy(Enemy),
 	dropTable(Enemy,DropList),
 	random(0,4,DropRandom),
