@@ -25,7 +25,7 @@ initbattle(Monster):-
   asserta(enemy_base_attack(Temp_Attack)),
   Temp_Special is Enemy_Special + Level,
   asserta(enemy_special_attack(Temp_Special)),
-  format("Enemy is approaching: ~w ~n",[Monster]),
+  %format("Enemy is approaching: ~w ~n",[Monster]),
   format("Level: ~w ~n",[Level]),
   format("Health: ~w ~n",[Temp_HP]),
   format("Attack: ~w ~n",[Temp_Attack]),
@@ -78,12 +78,13 @@ enemy_turn:-
   enemy_cooldown(X),
   X == 0,
   random(1,3,HasilRandom),
-  enemy_option(HasilRandom).
+  enemy_option(HasilRandom),!.
 enemy_turn:-
   enemy_now(true),
   enemy_cooldown(X),
   X > 0,
-  enemy_option(1).
+  enemy_option(1),!.
+enemy_turn :- !.
 
 enemy_option(1):-
   enemy_attack,
@@ -150,12 +151,12 @@ attack:-
   format("You deal ~2f damage ~n",[PrintDamage]),
   asserta(enemy_now(true)),
   add_curr_HP_enemy(FinalDamagePlayer),
-  enemy_turn.
+  enemy_turn,!.
 
 special_attack:-
   player_cooldown(X),
   X > 0,
-  format("You still have ~w turn cooldown ~n",[X]).
+  format("You still have ~w turn cooldown ~n",[X]),!.
 
 special_attack:-
   state(battle),
@@ -171,7 +172,7 @@ special_attack:-
   add_curr_HP_enemy(-SpecialAttack),
   retract(player_cooldown(_)),
   asserta(player_cooldown(3)),
-  enemy_turn.
+  enemy_turn,!.
 
 reward:-
   enemy_now(true),
@@ -180,6 +181,7 @@ reward:-
   random(1,20,BonusGold),
   FinalGold is BonusGold+Y,
   add_gold(FinalGold), %final gold = BaseGoldEnemey + RandomBonusGold
+  quest_progress(Enemy),
   get_exp(X).
 
 item_drop(Enemy):-
@@ -199,6 +201,7 @@ usePotion:- %Potionnya ga ada
     write('You dont have potion').
 usePotion:- %healthpotion
 	add_curr_HP(50), %tambah 50 HP ke player
+  write('You heal 50 HP!'),nl,
 	delete_item('Health Potion'). %hilangin 1 healthpotion di list
 
 run:-
@@ -227,3 +230,21 @@ runSuccess(ChanceRun):-
 	write('you fail to run away'),nl,
   asserta(enemy_now(true)),
 	enemy_turn.
+
+quest_progress(Enemy) :-
+  Enemy == slime,
+  retract(quest(S,G,W)),
+  NextS is S+1,
+  asserta(quest(NextS,G,W)).
+
+quest_progress(Enemy) :-
+  Enemy == goblin,
+  retract(quest(S,G,W)),
+  NextG is G+1,
+  asserta(quest(S,NextG,W)).
+
+quest_progress(Enemy) :-
+  Enemy == wolf,
+  retract(quest(S,G,W)),
+  NextW is W+1,
+  asserta(quest(S,G,NextW)).

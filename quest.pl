@@ -1,69 +1,51 @@
-% activeQuest(questnumber, progress)
-:- dynamic(activeQuest/2).
+:- dynamic(quest/3).
+:- dynamic(questGoal/3).
+% quest(slimeKills, goblinKills, wolfKills).
+% questGoal(slimeKillsGoal, goblinKillsGoal, wolfKillsGoal).
+quest(0,0,0).
+questGoal(7,5,3).
 
-activeQuest(0,0).
+quest :-
+  write('Your current quest: '),nl,
+  questGoal(Sg, Gg, Wg),
+  format(" Kill ~w slimes ~n Kill ~w goblin ~n Kill ~w wolf ~n ~n", [Sg, Gg, Wg]),
+  write('Your progress: '),nl,
+  quest(S,G,W),
+  format(" Slimes: ~w kill(s) ~n Goblin: ~w kill(s) ~n Wolf: ~w kill(s) ~n ~n", [S, G, W]),
+  (S >= Sg -> (G >= Gg -> (W >= Wg -> write('Turn in quest at the quest board!'),nl,!;!);!);!).
 
-
-fetchQuest :-
-  activeQuest(X, _),
-  (X > 0 -> write('You already have an ongoing quest!'),nl,fail ; !),
-  retract(activeQuest(_,_)),
-  random(1,6,R),
-  write('Quest Fetched!'),nl,
-  quest(R),!.
-
-
-quest(1) :-
-  write('Defeat 7 slime'),nl,
-  asserta(activeQuest(1, 0)).
-quest(2) :-
-  write('Defeat 5 goblin'),nl,
-  asserta(activeQuest(2, 0)).
-quest(3) :-
-  write('Defeat 3 wolf'),nl,
-  asserta(activeQuest(3, 0)).
-quest(4) :-
-  write('Use special attack to kill enemy 3 times'),nl,
-  asserta(activeQuest(4, 0)).
-quest(5) :-
-  write('Kill 10 enemies'),nl,
-  asserta(activeQuest(5, 0)).
-
-
-
-finishQuest :-
-  activeQuest(1, 7),
+turnInQuest :-
+  playerLoc(X,Y),
+  X == 10,
+  Y == 15,
+  quest(S, G, W),
+  questGoal(Sg, Gg, Wg),
+  (S < Sg -> write('you need more slime kills'),nl,fail; !),
+  (G < Gg -> write('you need more goblin kills'),nl,fail; !),
+  (W < Wg -> write('you need more wolf kills'),nl,fail; !),
   write('Quest finished!'),nl,
-  %reward
-  retract(activeQuest(_,_)),
-  asserta(activeQuest(0,0)).
 
-finishQuest :-
-  activeQuest(2, 5),
-  write('Quest finished!'),nl,
-  %reward
-  retract(activeQuest(_,_)),
-  asserta(activeQuest(0,0)).
+  GoldReward is 2000 * Wg,
+  XPReward is 100 * Wg,
+  add_gold(GoldReward),
+  get_xp(XPReward),
 
-finishQuest :-
-  activeQuest(3, 3),
-  write('Quest finished!'),nl,
-  %reward
-  retract(activeQuest(_,_)),
-  asserta(activeQuest(0,0)).
+  retract(quest(_,_,_)),
+  asserta(quest(0,0,0)),
+  NextSg is Sg + 3, NextGg is Gg + 2, NextWg is Wg + 1,
+  retract(questGoal(_,_,_)),
+  asserta(questGoal(NextSg, NextGg, NextWg)),
+  write('Your next quest: '),nl,
+  format(" Kill ~w slimes ~n Kill ~w goblin ~n Kill ~w wolf ~n ~n", [NextSg, NextGg, NextWg]).
 
-finishQuest :-
-  activeQuest(4, 3),
-  write('Quest finished!'),nl,
-  %reward
-  retract(activeQuest(_,_)),
-  asserta(activeQuest(0,0)).
+turnInQuest :-
+  playerLoc(X,Y),
+  Y \== 15,
+  write('Your are not at the quest board'),nl,!.
 
-finishQuest :-
-  activeQuest(5, 10),
-  write('Quest finished!'),nl,
-  %reward
-  retract(activeQuest(_,_)),
-  asserta(activeQuest(0,0)).
+turnInQuest :-
+  playerLoc(X,Y),
+  X \== 10,
+  write('Your are not at the quest board'),nl,!.
 
-finishQuest :- !.
+turnInQuest :- !.

@@ -42,9 +42,9 @@ msg :-
     write('Type `shop.` to access shop.'),nl,!.
 msg :-
     playerLoc(10,15),
-    write('Your are at (5,5).'),nl,
-    fetchQuest,
-    write('Type `quest.` to access quest log.'),nl,!.
+    write('Your are at (10,5).'),nl,
+    write('Type `turnInQuest.` to get reward after you finish a quest.'),nl,
+    write('Type `quest.` to check your quest progress.'),nl,!.
 msg :-
     playerLoc(X,Y),
     format("You are at (~w,~w). ~n", [X,Y]).
@@ -54,23 +54,20 @@ encounter :-
     X < 6,
     Y < 6,
     random(1,6,R),
-    (R == 5 -> write('You encountered a slime!'),nl,!; !),
-    initbattle(slime). % add init battle slime
-
+    (R == 5 -> write('You encountered a slime!'),nl,initbattle(slime),!; !).
+    
 encounter :-
     playerLoc(X,Y),
     X > 14,
     Y < 6,
     random(1,8,R),
-    (R == 5 -> write('You encountered a goblin!'),nl,!; !),
-    initbattle(goblin). % add init battle goblin
-
+    (R == 5 -> write('You encountered a goblin!'),nl,initbattle(goblin),!; !).
+    
 encounter :-
     playerLoc(X,Y),
     X < 6,
     Y > 14,
     random(1,11,R),
-    (R == 10 -> write('You encountered a wolf!'),nl,!; !),
-    initbattle(wolf). % add init battle wolf
-
+    (R == 10 -> write('You encountered a wolf!'),nl,initbattle(wolf),!; !).
+    
 encounter :- !.
