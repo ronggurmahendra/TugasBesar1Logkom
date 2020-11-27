@@ -97,7 +97,11 @@ level_up(EXP) :-
 	add_base_attack(1),
 	add_special_attack(2),
 	add_base_defense(1),
-	retract(experience(Val_Exp)) ,FinalXp is Val_Exp - 100, asserta(experience(FinalXp)).
+	format("YOU HAVE LEVEL UP ~w -> ~w ~n",[Val_Level,Temp_level]),
+	retract(experience(Val_Exp)) ,FinalXp is Val_Exp - 100, asserta(experience(FinalXp)),
+	level_up(FinalXp),!.
+	
+level_up(EXP) :- !.
 level_up(EXP).
 /*Inventory*/
 push(Element,[],[Element]) :- !.

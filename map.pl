@@ -58,12 +58,17 @@ encounter :-
     initbattle(slime). % add init battle slime
 
 encounter :-
+    playerLoc(20,20),
+	write('You encountered an Evil Dragon!'),nl,
+    initBoss. % add init battle goblin
+
+encounter :-
     playerLoc(X,Y),
-    X > 14,
-    Y < 6,
-    random(1,8,R),
-    (R == 5 -> write('You encountered a goblin!'),nl,!; !),
-    initbattle(goblin). % add init battle goblin
+    X < 6,
+    Y > 14,
+    random(1,11,R),
+    (R == 10 -> write('You encountered a wolf!'),nl,!; !),
+    initbattle(wolf). % add init battle wolf
 
 encounter :-
     playerLoc(X,Y),

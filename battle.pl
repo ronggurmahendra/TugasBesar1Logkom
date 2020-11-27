@@ -31,7 +31,22 @@ initbattle(Monster):-
   format("Attack: ~w ~n",[Temp_Attack]),
   format("Defense: ~w ~n",[Temp_Defence]),nl,
   format("What will you do:~n1.attack~n2.special_attack~n3.usePotion~n4.run",[]).
-
+initBoss :-
+	retract(state(_)),
+	asserta(state(battle)),
+	stat('EvilDragon',Enemy_HP,Enemy_Attack,Enemy_Defence,Enemy_Special),
+	asserta(curr_enemy('EvilDragon')),
+	asserta(enemy_max_HP(Enemy_HP)),
+	asserta(enemy_curr_HP(Enemy_HP)),
+	asserta(enemy_base_defense(Enemy_Defence)),
+	asserta(enemy_base_attack(Enemy_Attack)),
+	asserta(enemy_special_attack(Enemy_Special)),
+	format("Enemy is approaching: ~w ~n",['EvilDragon']),
+	format("Level: ~w ~n",[70]),
+	format("Health: ~w ~n",[Enemy_HP]),
+	format("Attack: ~w ~n",[Enemy_Attack]),
+	format("Defense: ~w ~n",[Enemy_Defence]),nl,
+	format("What will you do:~n1.attack~n2.special_attack~n3.usePotion~n4.run",[]).
 check_dead_enemy:-
   enemy_curr_HP(X),
   X =< 0,
