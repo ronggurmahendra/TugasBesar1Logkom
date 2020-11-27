@@ -261,25 +261,37 @@ swap_accessory :-
 print_inventory :-
 	inventory(List),
 	write('Your Inventory: '),nl,
-	print_inventory_(List).
+	print_inventory_(List),!.
 
 print_inventory_([Head|Tail]) :-
 	weapon(Head, _, Class),
-	class(Class, Name),
-	format("~w (~w) ~n",[Head, Name]),
-	print_inventory_(Tail).
+	class(Class, CName),
+	count(Head,[Head|Tail],CountItem),
+	deleteAllElmt(Head,Tail,DelResult),
+	format("~w (~w) (~w) ~n",[Head, CName, CountItem]),
+	print_inventory_(DelResult).
 
 print_inventory_([Head|Tail]) :-
 	armor(Head, _, Class),
-	class(Class, Name),
-	format("~w (~w) ~n",[Head, Name]),
-	print_inventory_(Tail).
+	class(Class, CName),
+	count(Head,[Head|Tail],CountItem),
+	deleteAllElmt(Head,Tail,DelResult),
+	format("~w (~w) (~w) ~n",[Head, CName, CountItem]),
+	print_inventory_(DelResult).
 
 print_inventory_([Head|Tail]) :-
 	accessory(Head, _, _, _, Class),
-	class(Class, Name),
-	format("~w (~w) ~n",[Head, Name]),
-	print_inventory_(Tail).
+	class(Class, CName),
+	count(Head,[Head|Tail],CountItem),
+	deleteAllElmt(Head,Tail,DelResult),
+	format("~w (~w) (~w) ~n",[Head, CName, CountItem]),
+	print_inventory_(DelResult).
+
+print_inventory_([Head|Tail]) :-
+	count(Head,[Head|Tail],CountItem),
+	deleteAllElmt(Head,Tail,DelResult),
+	format("~w (~w) ~n",[Head, CountItem]),
+	print_inventory_(DelResult).
 
 print_inventory_([]).
 %^^^^^^^^^^^^^^^^^^^
