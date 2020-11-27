@@ -61,7 +61,7 @@ option(1):-
   asserta(equip_weapon(beginnerSword,5,1)),
   asserta(equip_armor(beginnerPlate,5,1)),
   asserta(equip_acc(none,0,0,0,0)),
-  asserta(inventory(['Health Potion','Health Potion','Health Potion','Health Potion','Health Potion'])).
+  asserta(inventory([healthPotion,healthPotion,healthPotion,healthPotion,healthPotion])).
 option(2):-
   asserta(count_item(5)),
   asserta(level(1)),
@@ -76,7 +76,7 @@ option(2):-
   asserta(equip_weapon(beginnerBow,5,2)),
   asserta(equip_armor(beginnerLeather,5,2)),
   asserta(equip_acc(none,0,0,0,0)),
-  asserta(inventory(['Health Potion','Health Potion','Health Potion','Health Potion','Health Potion'])).
+  asserta(inventory([healthPotion,healthPotion,healthPotion,healthPotion,healthPotion])).
 option(3):-
   asserta(count_item(5)),
   asserta(level(1)),
@@ -91,7 +91,7 @@ option(3):-
   asserta(equip_weapon(beginnerStaff,5,3)),
   asserta(equip_armor(beginnerRobe,5,3)),
   asserta(equip_acc(none,0,0,0,0)),
-  asserta(inventory(['Health Potion','Health Potion','Health Potion','Health Potion','Health Potion'])).
+  asserta(inventory([healthPotion,healthPotion,healthPotion,healthPotion,healthPotion])).
 option(_):-
   write('False.'),nl.
 

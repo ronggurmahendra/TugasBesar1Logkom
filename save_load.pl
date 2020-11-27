@@ -34,6 +34,7 @@ save:-
   count_item(CountItem),
   playerLoc(PlayerLocX,PlayerLocY),
   write(Stream,save(MaxHP,CurrHP,BaseDefense,BaseAttack,SpecialAttack,Level,Experience,Inventory,Gold,EquipWeapon,EquipArmor,EquipAcc,Job,CountItem,PlayerLocX,PlayerLocY)),
+  write(Stream,'.'),
   retract(state(_)),
   asserta(state(menu)),
   write('Save berhasil, kembali ke menu'),
@@ -42,6 +43,7 @@ save:-
 load:-
   state(menu),
   open('save_file.txt',read,Stream),
+  %format("~w~n",[Stream]),
   read(Stream,In),
   asserta(In),
   save(MaxHP,CurrHP,BaseDefense,BaseAttack,SpecialAttack,Level,Experience,Inventory,Gold,EquipWeapon,EquipArmor,EquipAcc,Job,CountItem,PlayerLocX,PlayerLocY),

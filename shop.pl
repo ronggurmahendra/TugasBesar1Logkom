@@ -1,36 +1,4 @@
 
-/*
-gacharesult(0):-
-    add_item(Healthpotion), %masukin equipment yang mau digacha
-    write('Congratulation you got Nol'),nl.
-gacharesult(1):-
-    add_item(Healthpotion),
-    write('Congratulation you got One'),nl.
-gacharesult(2):-
-    add_item(Healthpotion),
-    write('Congratulation you got Two'),nl.
-gacharesult(3):-
-    add_item(Healthpotion),
-    write('Congratulation you got Three'),nl.
-gacharesult(4):-
-    add_item(Healthpotion),
-    write('Congratulation you got Four'),nl.
-gacharesult(5):-
-    add_item(Healthpotion),
-    write('Congratulation you got Five'),nl.
-gacharesult(6):-
-    add_item(Healthpotion),
-    write('Congratulation you got Six'),nl.
-gacharesult(7):-
-    add_item(Healthpotion),
-    write('Congratulation you got Seven'),nl.
-gacharesult(8):-
-    add_item(Healthpotion),
-    write('Congratulation you got Eight'),nl.
-gacharesult(9):-
-    add_item(Healthpotion),
-    write('Congratulation you got Nine'),nl.
-*/
 gachaList([beginnerSword,beginnerBow,beginnerStaff,longsword,lamentBlade,totsukaBlade,excalibur,longbow,pleiadesBow,zephyrBow,quintessenceBow,magicStaff,wabbajack,sanguineRose,shadebinder,beginnerPlate,beginnerLeather,beginnerRobe,ironPlate,phoenixPlate,stronghold,stalkerVest,frumiousVest,gwisinVest,dreambaneRobes,calamityRobes,icefallMantle,beltOfGiantStrengh,bracersOfDefence,amuletOfHealth,dibellaAmulet,gargoyleAmulet,bloodlustAmulet,ariculationAmulet,exileCloak,holdfastMark,greatHuntBond,crystalOfStrength,paimon]).
 shop:-
   state(normal),
@@ -48,7 +16,7 @@ healthpotion:-
 	state(shop),
     gold(Gold),
 	Gold >= 100,
-    add_item('Health Potion'),
+    add_item(healthPotion),
 	add_gold(-100),
 	write('You bought Health Potion for 100 gold'),!.
 healthpotion:-

@@ -226,13 +226,13 @@ item_drop(Enemy):-
 
 usePotion:- %Potionnya ga ada
     inventory(X),
-  	count('Health Potion',X,CountItem),
+  	count(healthPotion,X,CountItem),
     CountItem == 0,
     write('You dont have potion').
 usePotion:- %healthpotion
 	add_curr_HP(50), %tambah 50 HP ke player
   write('You heal 50 HP!'),nl,
-	delete_item('Health Potion'). %hilangin 1 healthpotion di list
+	delete_item(healthPotion). %hilangin 1 healthpotion di list
 
 run:-
 	random(1,10,ChanceRun),
