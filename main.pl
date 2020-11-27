@@ -4,6 +4,7 @@
 :- include('battle.pl').
 :- include('print.pl').
 :- include('quest.pl').
+:- include('save_load').
 /*Win Condition*/
 :- dynamic(state/1).
 state(menu).
@@ -32,8 +33,7 @@ state(menu).
 
 :- dynamic(option/1).
 start:-
-
-  %print_title,nl,sleep(1),
+  print_title,nl,sleep(1),
   state(menu),
   write('Welcome, choose your job.'),nl,
   write('1. Swordsman'),nl,
@@ -97,10 +97,10 @@ option(_):-
 
 help:-
   state(menu),
-  format("1.start untuk memulai petualangan~n",[]),nl.
+  format("1.start untuk memulai petualangan~n,2.load~n",[]),nl.
 help:-
   state(normal),
-  format("1.map(W to move upward, A to move to the left, D to move to the right, S to move downward)~n2.status~n3.map~n4.status~n5.shop(saat di shop)~n6.quit",[]),nl.
+  format("1.map(W to move upward, A to move to the left, D to move to the right, S to move downward)~n2.status~n3.map~n4.status~n5.shop(saat di shop)~n6.save~n7.quit",[]),nl.
 help:-
   state(shop),
   format("1.healthpotion: untuk membeli Health Potion~n2.gacha: Beli barang secara acak (SPECIAL chance for rare drop)~n3.sell: jual barang dari inventory",[]),nl.
