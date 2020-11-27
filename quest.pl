@@ -2,16 +2,14 @@
 :- dynamic(questGoal/3).
 % quest(slimeKills, goblinKills, wolfKills).
 % questGoal(slimeKillsGoal, goblinKillsGoal, wolfKillsGoal).
-quest(7,5,3).
+quest(0,0,0).
 questGoal(7,5,3).
 
 quest :-
-  write('Your current quest: '),nl,
+  write('Your quest progress: '),nl,
   questGoal(Sg, Gg, Wg),
-  format(" Kill ~w slimes ~n Kill ~w goblin ~n Kill ~w wolf ~n ~n", [Sg, Gg, Wg]),
-  write('Your progress: '),nl,
   quest(S,G,W),
-  format(" Slimes: ~w kill(s) ~n Goblin: ~w kill(s) ~n Wolf: ~w kill(s) ~n ~n", [S, G, W]),
+  format(" Slimes: ~w/~w kill(s) ~n Goblin: ~w/~w kill(s) ~n Wolf: ~w/~w kill(s) ~n ~n", [S, Sg, G, Gg, W, Wg]),
   (S >= Sg -> (G >= Gg -> (W >= Wg -> write('Turn in quest at the quest board!'),nl,!;!);!);!).
 
 turnInQuest :-

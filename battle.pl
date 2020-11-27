@@ -248,18 +248,20 @@ runSuccess(ChanceRun):-
 
 quest_progress(Enemy) :-
   Enemy == slime,
+  questGoal(Sg,Gg,Wg),
   retract(quest(S,G,W)),
-  NextS is S+1,
-  asserta(quest(NextS,G,W)).
-
+  (S < Sg -> NextS is S+1, asserta(quest(NextS,G,W)),! ; asserta(quest(S,G,W)),!).
+  
 quest_progress(Enemy) :-
   Enemy == goblin,
+  questGoal(Sg,Gg,Wg),
   retract(quest(S,G,W)),
-  NextG is G+1,
-  asserta(quest(S,NextG,W)).
+  (G < Gg -> NextG is G+1, asserta(quest(S,NextG,W)),! ; asserta(quest(S,G,W)),!).
+  
 
 quest_progress(Enemy) :-
   Enemy == wolf,
+  questGoal(Sg,Gg,Wg),
   retract(quest(S,G,W)),
-  NextW is W+1,
-  asserta(quest(S,G,NextW)).
+  (W < Wg -> NextW is W+1, asserta(quest(S,G,NextW)),! ; asserta(quest(S,G,W)),!).
+  

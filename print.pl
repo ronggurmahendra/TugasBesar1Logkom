@@ -23,6 +23,14 @@ print_test:-
     process_stream(Char1,Stream),sleep(1),
     close(Stream).
 
+print_boss:-
+    open('seth.txt',read,Stream),
+    %get char
+    get_char(Stream,Char1),
+    %output until eof
+    process_stream(Char1,Stream),sleep(1),
+    close(Stream).
+
 % basis
 process_stream(end_of_file, _) :- !.
 

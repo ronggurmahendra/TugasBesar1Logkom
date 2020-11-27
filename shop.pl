@@ -47,9 +47,10 @@ shop:-
 healthpotion:-
 	state(shop),
     gold(Gold),
-    Gold >= 100,
+	Gold >= 100,
     add_item('Health Potion'),
-    add_gold(-100).
+	add_gold(-100),
+	write('You bought Health Potion for 100 gold'),!.
 healthpotion:-
 	state(shop),
     gold(Gold),
@@ -65,7 +66,7 @@ gacha:-
 	gachaList(GachaList),
 	getElmt(GachaList,Gacha_Number,GachaResult),
 	%format("~w ~n",[GachaResult]),
-	getGacha(GachaResult).
+	getGacha(GachaResult),!.
 	%add_item(GachaResult).
 gacha:-
 	state(shop),
@@ -95,7 +96,7 @@ sell:-
 	Bool == 1,
 	delete_item(Input),
 	add_gold(50),
-	format("you sold ~w for 50 gold ~n",[Input]).
+	format("you sold ~w for 50 gold ~n",[Input]),!.
 	/*
 sell:-
 	state(shop),
