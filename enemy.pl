@@ -17,7 +17,7 @@ stat(goblin,50,8,3,14).
 stat(wolf,75,12,5,20).
 stat('EvilDragon',200,50,40,70).
 %drop
-dropTable(slime,[slimeSword,slimeStaff,slimeBow,healthPotion,healthPotion]).
-dropTable(wolf,[wolfSword,wolfStaff,wolfBow,healthPotion,healthPotion]).
-dropTable(goblin,[goblinSword,goblinStaff,goblinBow,healthPotion,healthPotion]).
+dropTable(slime,[longsword,slimeCondensade,slimeCondensade,healthPotion,healthPotion]).
+dropTable(wolf,[longbow,wolfFang,wolfFang,healthPotion,healthPotion]).
+dropTable(goblin,[ironPlate,goblinCloth,goblinCloth,healthPotion,healthPotion]).
 dropTable('EvilDragon',[dragonSword,dragonStaff,dragonBow,healthPotion,healthPotion]).
