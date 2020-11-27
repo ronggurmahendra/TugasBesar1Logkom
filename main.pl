@@ -33,7 +33,7 @@ state(menu).
 :- dynamic(option/1).
 start:-
 
-  print_title,nl,sleep(1),
+  %print_title,nl,sleep(1),
   state(menu),
   write('Welcome, choose your job.'),nl,
   write('1. Swordsman'),nl,
@@ -229,6 +229,8 @@ quit:-
   retract(inventory(_)),
   retract(gold(_)),
   retract(state(_)),
+  retract(player_loc(_,_)),
+  retract(player_loc(10,10)),
   asserta(state(menu)).
 
 quit:-
@@ -248,4 +250,6 @@ quit:-
   retract(inventory(_)),
   retract(gold(_)),
   retract(state(_)),
+  retract(player_loc(_,_)),
+  retract(player_loc(10,10)),
   asserta(state(menu)).

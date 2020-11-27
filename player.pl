@@ -146,6 +146,16 @@ check_dead:-
 	curr_HP(X),
 	X =< 0,
 	write('You are dead.'),
+	retract(curr_enemy(_)),
+	retract(enemy_max_HP(_)),
+	retract(enemy_curr_HP(_)),
+	retract(enemy_base_defense(_)),
+	retract(enemy_base_attack(_)),
+	retract(enemy_special_attack(_)),
+	retract(enemy_cooldown(_)),
+	asserta(enemy_cooldown(0)),
+	retract(player_cooldown(_)),
+	asserta(player_cooldown(0)),
 	quit.
 
 check_dead.
@@ -172,8 +182,7 @@ add_curr_HP(Added_curr_Hp):-
 	FinalHp is Temp_Curr_Hp + Added_curr_Hp,
 	Max_HP < FinalHp,
 	retract(curr_HP(Curr_Hp)),
-	asserta(curr_HP(Max_HP)),
-	check_dead.
+	asserta(curr_HP(Max_HP)).
 
 add_base_attack(Added_base_attack):-
 	retract(base_attack(Base_attack)),
