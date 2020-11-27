@@ -3,6 +3,7 @@
 :- include('shop.pl').
 :- include('battle.pl').
 :- include('print.pl').
+:- include('quest.pl').
 /*Win Condition*/
 :- dynamic(state/1).
 state(menu).

@@ -31,7 +31,7 @@ gacharesult(9):-
     add_item(Healthpotion),
     write('Congratulation you got Nine'),nl.
 */
-gachaList([beginnerSword,beginnerBow,beginnerStaff,longsword,lament,totsukaBlade,excalibur,longbow,pleiades,zephyrBow,quintessenceBow,magicStaff,wabbajack,sanguineRose,shadebinder,beginnerPlate,beginnerLeather,beginnerRobe,ironPlate,phoenixPlate,stronghold,stalkerVest,frumiousVest,gwisinVest,dreambaneRobes,calamityRobes,icefallMantle,beltOfGiantStrengh,bracersOfDefence,amuletOfHealth,dibellaAmulet,gargoyleAmulet,bloodlustAmulet,ariculationAmulet,exileCloak,holdfastMark,greatHuntBond,crystalOfStrength,paimon]).
+gachaList([beginnerSword,beginnerBow,beginnerStaff,longsword,lamentBlade,totsukaBlade,excalibur,longbow,pleiadesBow,zephyrBow,quintessenceBow,magicStaff,wabbajack,sanguineRose,shadebinder,beginnerPlate,beginnerLeather,beginnerRobe,ironPlate,phoenixPlate,stronghold,stalkerVest,frumiousVest,gwisinVest,dreambaneRobes,calamityRobes,icefallMantle,beltOfGiantStrengh,bracersOfDefence,amuletOfHealth,dibellaAmulet,gargoyleAmulet,bloodlustAmulet,ariculationAmulet,exileCloak,holdfastMark,greatHuntBond,crystalOfStrength,paimon]).
 shop:-
   state(normal),
   playerLoc(10,5),
