@@ -93,10 +93,10 @@ get_exp(Added_Exp) :-
 level_up(EXP) :-
 	EXP >= 100,
 	retract(level(Val_Level)),Temp_level is Val_Level+1,asserta(level(Temp_level)),
-	add_max_HP(10),
-	add_base_attack(1),
-	add_special_attack(2),
-	add_base_defense(1),
+	add_max_HP(20),
+	add_base_attack(3),
+	add_special_attack(6),
+	add_base_defense(3),
 	format("YOU HAVE LEVEL UP ~w -> ~w ~n",[Val_Level,Temp_level]),
 	retract(experience(Val_Exp)) ,FinalXp is Val_Exp - 100, asserta(experience(FinalXp)),
 	level_up(FinalXp),!.
