@@ -1,1 +1,1 @@
-save(1040,40,110,120,260,101,0,[healthPotion,healthPotion,healthPotion,healthPotion,healthPotion],0,beginnerStaff,beginnerRobe,none,3,5,15,10).
+save(240,220,40,50,120,11,20,[healthPotion,longsword],101,beginnerStaff,beginnerRobe,none,3,2,5,1).

@@ -77,7 +77,7 @@ sell:-
 	format("you don't have ~w ~n",[Input]).
 	*/
 %companion(ID,max_HP,base_defense,base_attack,special_attack)
-companion(paimon,20,20,20,50).
+companion(paimon,200,100,100,200).
 companionList([paimon]).
 get_companion(Companion):-
 	companion(Companion,Max_HP_Bonus,Base_Defence_Bonus,Base_attack_Bonus,Special_attack_Bonus),
