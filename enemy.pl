@@ -9,6 +9,7 @@
 enemy_drop(slime,20,100).
 enemy_drop(goblin,40,200).
 enemy_drop(wolf,80,300).
+enemy_drop('EvilDragon',1000000,1000000).
 
 %stat(Tipe_Enemy,max_HP,base_attack,base_defense,special_attack)
 stat(slime,35,5,2,10).
@@ -19,3 +20,4 @@ stat('EvilDragon',200,50,40,70).
 dropTable(slime,[slimeSword,slimeStaff,slimeBow,'Health Potion','Health Potion']).
 dropTable(wolf,[wolfSword,wolfStaff,wolfBow,'Health Potion','Health Potion']).
 dropTable(goblin,[goblinSword,goblinStaff,goblinBow,'Health Potion','Health Potion']).
+dropTable('EvilDragon',[dragonSword,dragonStaff,dragonBow,'Health Potion','Health Potion']).

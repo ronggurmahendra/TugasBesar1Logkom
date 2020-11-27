@@ -54,7 +54,6 @@ check_dead_enemy:-
   reward,
   % curr_enemy(Enemy),
   retract(curr_enemy(Enemy)),
-  item_drop(Enemy),
   retract(enemy_max_HP(_)),
   retract(enemy_curr_HP(_)),
   retract(enemy_base_defense(_)),
@@ -66,8 +65,12 @@ check_dead_enemy:-
   asserta(player_cooldown(0)),
   retract(state(_)),
   asserta(state(normal)),
-  retract(enemy_now(_)),
-  write('Enemy is dead.'),nl.
+
+  write('Enemy is dead.'),nl,
+
+  item_drop(Enemy),
+  retract(enemy_now(_)).
+  
 %if not dead enemy attack
 check_dead_enemy:-
   enemy_now(true),
@@ -194,22 +197,32 @@ special_attack:-
 reward:-
   enemy_now(true),
   curr_enemy(Enemy),
+  \+(Enemy == 'EvilDragon'),
   enemy_drop(Enemy,X,Y),
   random(1,20,BonusGold),
   FinalGold is BonusGold+Y,
   add_gold(FinalGold), %final gold = BaseGoldEnemey + RandomBonusGold
   quest_progress(Enemy),
   get_exp(X).
+reward :- !.
+
 
 item_drop(Enemy):-
   enemy_now(true),
+  Enemy == 'EvilDragon',
+  write('YOU HAVE WON!!!!!!!!!!'),nl,
+  quit,!.
+  
+item_drop(Enemy):-
+  enemy_now(true),
+    \+(Enemy == 'EvilDragon'),
   write('item drop'),nl,
 	% curr_enemy(Enemy),
 	dropTable(Enemy,DropList),
 	random(0,4,DropRandom),
 	getElmt(DropList,DropRandom,Elmt),
 	format("the ~w drop ~w ~n",[Enemy,Elmt]),
-	add_item(Elmt).
+	add_item(Elmt),!.
 
 usePotion:- %Potionnya ga ada
     inventory(X),

@@ -228,9 +228,9 @@ quit:-
   retract(experience(_)),
   retract(inventory(_)),
   retract(gold(_)),
-  retract(state(_)),
-  retract(player_loc(_,_)),
-  retract(player_loc(10,10)),
+  retract(state(_)),	
+  retract(playerLoc(_,_)),
+  asserta(playerLoc(10,10)),
   asserta(state(menu)).
 
 quit:-
@@ -250,6 +250,6 @@ quit:-
   retract(inventory(_)),
   retract(gold(_)),
   retract(state(_)),
-  retract(player_loc(_,_)),
-  retract(player_loc(10,10)),
+  retract(playerLoc(_,_)),
+  asserta(playerLoc(10,10)),
   asserta(state(menu)).
